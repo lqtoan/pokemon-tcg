@@ -25,23 +25,19 @@ export class PokemonSetListComponent {
     this.isLoading.set(true);
     this.pokemonTcgService.getAllSets().subscribe({
       next: (response) => {
-        // Sắp xếp tất cả bộ sưu tập theo ngày phát hành từ mới nhất đến cũ nhất
         const sortedSets = response.data.sort((a: any, b: any) => {
           return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
         });
 
-        // Nhóm bộ sưu tập theo series mà không sử dụng `push`
         const grouped = new Map<string, any[]>();
 
         sortedSets.forEach((set: any) => {
           const series = set.series;
-          const currentGroup = grouped.get(series) || []; // Lấy nhóm hiện tại, nếu không có thì tạo mảng rỗng
-          
+          const currentGroup = grouped.get(series) || [];
           
           grouped.set(series, [...currentGroup, set]);
         });
         
-        // Cập nhật dữ liệu đã nhóm và sắp xếp
         this.groupedData.set(grouped);
         this.sortedData = Array.from(grouped.entries());
       },

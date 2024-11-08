@@ -1,5 +1,4 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -9,7 +8,7 @@ import { PokemonService } from '../../services/pokemon.service';
 @Component({
   selector: 'app-pokemon-details',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule, PokemonEvolutionChainComponent],
+  imports: [CommonModule, RouterModule, PokemonEvolutionChainComponent],
   templateUrl: './pokemon-details.component.html',
   styleUrls: ['./pokemon-details.component.scss'],
 })
@@ -24,7 +23,6 @@ export class PokemonDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private _pokemonService: PokemonService) {}
 
   ngOnInit(): void {
-    // Lấy ID từ URL
     this.route.paramMap.subscribe((params) => {
       this.pokemonId = params.get('id');
       if (this.pokemonId) {
@@ -82,13 +80,11 @@ export class PokemonDetailsComponent implements OnInit {
 
   navigatePokemon(direction: string): void {
     if (direction === 'next' && this.nextId) {
-      // Điều hướng tới Pokémon tiếp theo và cập nhật URL
       this.router.navigate(['/pokedex', this.nextId]);
-      this.getPokemonDetails(this.nextId);  // Lấy thông tin Pokémon tiếp theo
+      this.getPokemonDetails(this.nextId);
     } else if (direction === 'previous' && this.previousId) {
-      // Điều hướng tới Pokémon trước đó và cập nhật URL
       this.router.navigate(['/pokedex', this.previousId]);
-      this.getPokemonDetails(this.previousId);  // Lấy thông tin Pokémon trước đó
+      this.getPokemonDetails(this.previousId);
     }
   }
 }

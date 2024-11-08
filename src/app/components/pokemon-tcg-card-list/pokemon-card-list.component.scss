@@ -29,7 +29,7 @@
     margin: 0 auto;
     max-width: 1152px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
 
     .image {
@@ -54,7 +54,7 @@
     padding: 8px;
     .list {
       grid-template-columns: repeat(2, 1fr);
-      gap: 4px;
+      gap: 8px;
     }
   }
 }

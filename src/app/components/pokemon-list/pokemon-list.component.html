@@ -33,11 +33,16 @@
      (scroll)="onWindowScroll()">
   <div class="pokemon-grid">
     <app-pokemon-card *ngFor="let pokemon of pokemons()"
-                         [pokemon]="pokemon"></app-pokemon-card>
+                      [pokemon]="pokemon"
+                      (click)="onShowPopup(pokemon)"></app-pokemon-card>
   </div>
 </div>
 
+<app-pokemon-details-popup *ngIf="showPopup"
+                           [pokemon]="selectedPokemon"
+                           (closePopup)="closePopup()"></app-pokemon-details-popup>
+
 <div *ngIf="isLoading()"
      class="loading">
-     Đang tải Pokémon......
+  Đang tải Pokémon......
 </div>

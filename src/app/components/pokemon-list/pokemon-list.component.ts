@@ -1,3 +1,5 @@
+import { PokemonDetailsComponent } from './../pokemon-details/pokemon-details.component';
+import { PokemonDetailsPopupComponent } from './../pokemon-details-popup/pokemon-details-popup.component';
 import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
@@ -11,6 +13,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     PokemonCardComponent,
+    PokemonDetailsPopupComponent,
+    PokemonDetailsComponent
   ],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
@@ -24,6 +28,8 @@ export class PokemonListComponent implements OnInit {
   currentPage = 1;
   maxPage = 0;
   isLoading = signal<boolean>(false);
+  selectedPokemon: any = null;
+  showPopup: boolean = false;
 
   constructor(private _pokemonService: PokemonService) {}
 
@@ -78,6 +84,20 @@ export class PokemonListComponent implements OnInit {
     } else {
       this.getPokemons();
     }
+  }
+
+  onShowPopup(pokemon: any) {
+    console.log(pokemon);
+    
+    this.selectedPokemon = {
+      id: pokemon.data.id,
+      data: pokemon.data
+    };
+    this.showPopup = true;
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
   }
 
   @HostListener('window:scroll', [])

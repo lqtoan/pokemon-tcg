@@ -1,5 +1,5 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PokemonEvolutionChainComponent } from '../pokemon-evolution-chain/pokemon-evolution-chain.component';
@@ -13,22 +13,18 @@ import { PokemonService } from '../../services/pokemon.service';
   styleUrls: ['./pokemon-details.component.scss'],
 })
 export class PokemonDetailsComponent implements OnInit {
-  pokemonId: string | null = null;
+  @Input() pokemonId: string = '';
+  
   pokemon: any;
   evolutionChain: any[] = []; 
   isLoading: boolean = false;
   nextId: string | null = null;
   previousId: string | null = null;
 
-  constructor(private route: ActivatedRoute, private router: Router, private _pokemonService: PokemonService) {}
+  constructor(private _pokemonService: PokemonService) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.pokemonId = params.get('id');
-      if (this.pokemonId) {
-        this.getPokemonDetails(this.pokemonId);
-      }
-    });
+    this.getPokemonDetails(this.pokemonId);
   }
 
   getPokemonDetails(id: string): void {
@@ -78,13 +74,11 @@ export class PokemonDetailsComponent implements OnInit {
     return chainArray;
   }
 
-  navigatePokemon(direction: string): void {
-    if (direction === 'next' && this.nextId) {
-      this.router.navigate(['/pokedex', this.nextId]);
-      this.getPokemonDetails(this.nextId);
-    } else if (direction === 'previous' && this.previousId) {
-      this.router.navigate(['/pokedex', this.previousId]);
-      this.getPokemonDetails(this.previousId);
-    }
-  }
+  // navigatePokemon(direction: string): void {
+  //   if (direction === 'next' && this.nextId) {
+  //     this.getPokemonDetails(this.nextId);
+  //   } else if (direction === 'previous' && this.previousId) {
+  //     this.getPokemonDetails(this.previousId);
+  //   }
+  // }
 }

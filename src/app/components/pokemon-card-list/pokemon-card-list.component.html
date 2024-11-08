@@ -1,0 +1,12 @@
+<div *ngIf="isLoading(); else loaded">
+  <p>Đang tải thẻ Pokémon...</p>
+</div>
+
+<ng-template #loaded>
+  <div class="list">
+    <div *ngFor="let card of data()" >
+      <img loading="lazy" class="image" [src]="card.images.large" alt="{{ card.name }}" />
+    </div>
+  </div>
+
+</ng-template>

@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+html {
+
+}
+body {
+  color: #2e3440;
+  background: #eceff4;
+  font-display: fallback;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+/****************** thumbnail ******************/
+::-webkit-scrollbar {
+  display: none;
+  background: transparent;
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  display: block;
+  visibility: hidden;
+  background: blue;
+  border-radius: 4px;
+}

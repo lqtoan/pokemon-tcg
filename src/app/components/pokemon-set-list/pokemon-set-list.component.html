@@ -1,0 +1,21 @@
+<div *ngIf="isLoading(); else loaded" class="loading-container">
+  <p>Đang tải bộ sưu tập...</p>
+</div>
+
+<ng-template #loaded>
+  <div *ngFor="let series of sortedData" class="sets">
+    <h2 class="series-title">{{ series[0] }}</h2>
+    <div class="set-list">
+      <div *ngFor="let set of series[1]" class="set-item">
+        <div class="set-logo">
+          <img [src]="set.images.logo" alt="{{ set.name }} logo" />
+        </div>
+        <div class="set-info">
+          <h3>{{ set.name }}</h3>
+          <p>Mã Set: {{ set.ptcgoCode }}</p>
+          <p>Ngày phát hành: {{ set.releaseDate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

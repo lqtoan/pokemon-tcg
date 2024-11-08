@@ -6,8 +6,9 @@ import { PokemonDetailsComponent } from './components/pokemon-details/pokemon-de
 
 export const routes: Routes = [
   { path: 'tcg', component: PokemonSetListComponent },
+  { path: 'tcg/:id', component: PokemonCardListComponent },
   { path: 'pokedex', component: PokemonListComponent },
-  { path: 'pokemon/:id', component: PokemonDetailsComponent },
+  { path: 'pokedex/:id', component: PokemonDetailsComponent },
   { path: '', redirectTo: '/pokedex', pathMatch: 'full' },
   // { path: '**', redirectTo: '/tcg' },
 ];

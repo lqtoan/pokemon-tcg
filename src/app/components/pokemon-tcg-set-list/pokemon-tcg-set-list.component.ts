@@ -1,11 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { PokemonTcgService } from '../../services/pokemon-tcg.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-set-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './pokemon-tcg-set-list.component.html',
   styleUrl: './pokemon-tcg-set-list.component.scss'
 })
@@ -14,6 +15,7 @@ export class PokemonSetListComponent {
   isLoading = signal(false);
   groupedData = signal<Map<string, any[]>>(new Map());
   sortedData: any[] = [];
+  selectedSetId: string | null = null;
 
   constructor(private pokemonTcgService: PokemonTcgService) {
     this.loadSets();

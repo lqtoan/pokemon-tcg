@@ -12,6 +12,4 @@ import { RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'pokemon-tcg-app';
-
-  isViewTCG: boolean = false;
 }

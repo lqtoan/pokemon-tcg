@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { PokemonTcgService } from '../../services/pokemon-tcg.service';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-card-list',
@@ -10,18 +11,47 @@ import { CommonModule } from '@angular/common';
   styleUrl: './pokemon-card-list.component.scss',
 })
 export class PokemonCardListComponent {
-  private pokemonTcgService = inject(PokemonTcgService);
-
   isLoading = signal(false);
   data = signal<any[]>([]);
+  setId: string | null = '';
+  title: string = '';
 
-  constructor() {
-    this.loadPokemonCards();
+  constructor(
+    private route: ActivatedRoute,
+    private pokemonTcgService: PokemonTcgService
+  ) {
   }
 
-  loadPokemonCards() {
+  ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      console.log(params);
+      
+      this.setId = params.get('id');
+      console.log(this.setId);
+      
+      if (this.setId) {
+        this.loadSetDetails(this.setId);
+        this.loadCardsBySet(this.setId);
+      }
+    });
+  }
+
+  loadSetDetails(setId: string) {
+    this.pokemonTcgService.getSetById(setId).subscribe({
+      next: (response) => {
+        console.log(response);
+        
+        this.title = response.data.name;
+      },
+      error: (error) => {
+        console.error('Lỗi khi lấy thông tin set:', error);
+      }
+    });
+  }
+
+  loadCardsBySet(setId: string) {
     this.isLoading.set(true);
-    this.pokemonTcgService.getPokemonCards().subscribe({
+    this.pokemonTcgService.getCardsBySet(setId).subscribe({
       next: (response) => {
         this.data.set(response.data);
       },

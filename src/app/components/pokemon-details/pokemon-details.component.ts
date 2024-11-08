@@ -83,11 +83,11 @@ export class PokemonDetailsComponent implements OnInit {
   navigatePokemon(direction: string): void {
     if (direction === 'next' && this.nextId) {
       // Điều hướng tới Pokémon tiếp theo và cập nhật URL
-      this.router.navigate(['/pokemon', this.nextId]);
+      this.router.navigate(['/pokedex', this.nextId]);
       this.getPokemonDetails(this.nextId);  // Lấy thông tin Pokémon tiếp theo
     } else if (direction === 'previous' && this.previousId) {
       // Điều hướng tới Pokémon trước đó và cập nhật URL
-      this.router.navigate(['/pokemon', this.previousId]);
+      this.router.navigate(['/pokedex', this.previousId]);
       this.getPokemonDetails(this.previousId);  // Lấy thông tin Pokémon trước đó
     }
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -20,5 +20,14 @@ export class PokemonTcgService {
   getAllSets(): Observable<any> {
     const headers = new HttpHeaders().set('X-Api-Key', this.API_KEY );
     return this.http.get(`${this.apiUrl}/sets`, { headers });
+  }
+
+  getSetById(setId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/sets/${setId}`);
+  }
+
+  getCardsBySet(setId: string): Observable<any> {
+    const headers = new HttpHeaders().set('X-Api-Key', this.API_KEY );
+    return this.http.get(`${this.apiUrl}/cards?q=set.id:${setId}`, { headers });
   }
 }

@@ -1,5 +1,6 @@
+import config from '../../api-config.json';
 
 export const environment = {
   production: true,
-  apiKey: process.env['API_KEY'] || ''
+  apiKey: config['api-key']
 };

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PokemonSetListComponent } from './pokemon-set-list.component';
+import { PokemonSetListComponent } from './pokemon-tcg-set-list.component';
 
 describe('PokemonSetListComponent', () => {
   let component: PokemonSetListComponent;

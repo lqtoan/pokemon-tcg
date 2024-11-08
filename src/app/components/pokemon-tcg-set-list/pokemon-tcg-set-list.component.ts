@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-pokemon-set-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './pokemon-set-list.component.html',
-  styleUrl: './pokemon-set-list.component.scss'
+  templateUrl: './pokemon-tcg-set-list.component.html',
+  styleUrl: './pokemon-tcg-set-list.component.scss'
 })
 export class PokemonSetListComponent {
 

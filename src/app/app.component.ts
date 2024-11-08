@@ -1,4 +1,4 @@
-import { PokemonCardListComponent } from './components/pokemon-card-list/pokemon-card-list.component';
+import { PokemonCardListComponent } from './components/pokemon-tcg-card-list/pokemon-card-list.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
@@ -12,4 +12,6 @@ import { RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'pokemon-tcg-app';
+
+  isViewTCG: boolean = false;
 }

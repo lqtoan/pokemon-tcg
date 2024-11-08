@@ -1,7 +1,7 @@
 
 <div class="evolution-chain"
      *ngIf="evolutionChain.length > 0">
-  <span class="evolution-unit"
+  <span class="evolution-unit" [class.current]="evolution.isCurrent"
         *ngFor="let evolution of evolutionChain; let last = last"
         [routerLink]="'/pokemon/' + evolution.id"
         routerLinkActive="router-link-active">

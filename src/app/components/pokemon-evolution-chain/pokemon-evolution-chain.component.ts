@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -12,4 +12,10 @@ import { RouterModule } from '@angular/router';
 export class PokemonEvolutionChainComponent {
   @Input() evolutionChain: any[] = []; 
   @Input() currentPokemonId: string = '';
+
+  @Output() pokemonSelected = new EventEmitter<string>();
+
+  onPokemonClick(pokemonId: string) {
+    this.pokemonSelected.emit(pokemonId);
+  }
 }

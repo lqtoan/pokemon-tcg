@@ -17,8 +17,6 @@ export class PokemonDetailsComponent implements OnInit {
   pokemon: any;
   evolutionChain: any[] = []; 
   isLoading: boolean = false;
-  nextId: string | null = null;
-  previousId: string | null = null;
 
   constructor(private _pokemonService: PokemonService) {}
 
@@ -30,8 +28,6 @@ export class PokemonDetailsComponent implements OnInit {
     this.isLoading = true;
     this._pokemonService.getPokemonDetails(id).subscribe((res) => {
       this.pokemon = res;
-      this.nextId = res.id < 99999 ? (res.id + 1).toString() : null;
-      this.previousId = res.id > 1 ? (res.id - 1).toString() : null;
       this.getEvolutionChain();
     }, () => {
       this.isLoading = false;
@@ -72,11 +68,12 @@ export class PokemonDetailsComponent implements OnInit {
     return chainArray;
   }
 
-  // navigatePokemon(direction: string): void {
-  //   if (direction === 'next' && this.nextId) {
-  //     this.getPokemonDetails(this.nextId);
-  //   } else if (direction === 'previous' && this.previousId) {
-  //     this.getPokemonDetails(this.previousId);
-  //   }
-  // }
+  onPokemonSelected(pokemonId: string): void { 
+    this.isLoading = true;
+    this._pokemonService.getPokemonDetails(pokemonId).subscribe((res) => {      
+      this.pokemon = res;
+      this.pokemonId = res.id;
+      this.isLoading = false;
+    });
+  }
 }

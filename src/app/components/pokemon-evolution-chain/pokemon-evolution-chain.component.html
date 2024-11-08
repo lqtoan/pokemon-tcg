@@ -1,10 +1,9 @@
-
 <div class="evolution-chain"
      *ngIf="evolutionChain.length > 0">
-  <span class="evolution-unit" [class.current]="evolution.id == currentPokemonId"
+  <span class="evolution-unit"
+        [class.current]="evolution.id == currentPokemonId"
         *ngFor="let evolution of evolutionChain; let last = last"
-        [routerLink]="'/pokedex/' + evolution.id"
-        routerLinkActive="router-link-active">
+        (click)="onPokemonClick(evolution.id)">
     <div class="evolution-info">
       <img [src]="evolution.image"
            alt="{{ evolution.name }}"

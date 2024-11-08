@@ -59,5 +59,6 @@
     </span>
   </div> -->
   <app-pokemon-evolution-chain [currentPokemonId]="pokemonId"
-                               [evolutionChain]="evolutionChain"></app-pokemon-evolution-chain>
+                               [evolutionChain]="evolutionChain"
+                               (pokemonSelected)="onPokemonSelected($event)"></app-pokemon-evolution-chain>
 </div>

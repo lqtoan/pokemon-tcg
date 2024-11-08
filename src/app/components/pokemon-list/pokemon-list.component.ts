@@ -87,8 +87,6 @@ export class PokemonListComponent implements OnInit {
   }
 
   onShowPopup(pokemon: any) {
-    console.log(pokemon);
-    
     this.selectedPokemon = {
       id: pokemon.data.id,
       data: pokemon.data

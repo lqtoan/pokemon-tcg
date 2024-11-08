@@ -26,14 +26,16 @@
   }
 
   .pokemon-image {
+    width: 96px;
+    height: 96px;
     background: #fafafa;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     img {
-      width: 88px;
-      height: 88px;
+      width: 96px;
+      height: 96px;
       // max-width: 96px;
       transition: transform 0.2s ease;
 

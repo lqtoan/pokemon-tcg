@@ -1,0 +1,43 @@
+<!-- <div class="paginaion-container">
+  <div *ngIf="!infiniteScrollEnabled()" class="page-input">
+    <input type="number"
+           [(ngModel)]="inputPage"
+           placeholder="Nhập trang"
+           min="1" />
+    <button (click)="goToPage(inputPage)"
+            [disabled]="currentPage === inputPage || inputPage > maxPage || inputPage < 1 || isLoading()">Đi đến trang</button>
+  </div>
+  <div *ngIf="!infiniteScrollEnabled()" class="pagination">
+    <button (click)="goToPage(1)"
+            [disabled]="currentPage === 1 || isLoading()">
+      |< </button>
+
+        <button (click)="goToPage(currentPage - 1)"
+                [disabled]="currentPage === 1 || isLoading()">
+          << </button>
+
+            <button (click)="goToPage(currentPage + 1)"
+                    [disabled]="currentPage === maxPage || isLoading()"> >> </button>
+
+            <button (click)="goToPage(maxPage)"
+                    [disabled]="currentPage === maxPage || isLoading()">
+              >| </button>
+  </div>
+
+  <button *ngIf="!infiniteScrollEnabled()" (click)="toggleInfiniteScroll()">Infinite Scroll</button>
+  <button *ngIf="infiniteScrollEnabled()" (click)="toggleInfiniteScroll()">Pagination</button>
+</div> -->
+
+<div #scrollContainer
+     class="pokedex-container"
+     (scroll)="onWindowScroll()">
+  <div class="pokemon-grid">
+    <app-pokemon-card *ngFor="let pokemon of pokemons()"
+                         [pokemon]="pokemon"></app-pokemon-card>
+  </div>
+</div>
+
+<div *ngIf="isLoading()"
+     class="loading">
+  Loading...
+</div>

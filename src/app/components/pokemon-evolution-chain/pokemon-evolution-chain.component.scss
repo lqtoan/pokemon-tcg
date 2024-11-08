@@ -1,0 +1,21 @@
+.evolution-chain {
+  margin-top: 16px;
+  display: flex;
+
+  .evolution-unit {
+    display: flex;
+    align-items: center;
+    .evolution-info {
+      display: inline-block;
+      text-align: center;
+      img {
+        width: 96px;
+        height: 96px;
+      }
+    }
+  }
+
+  .evolution-unit:hover {
+    cursor: pointer;
+  }
+}

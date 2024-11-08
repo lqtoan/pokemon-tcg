@@ -1,0 +1,18 @@
+
+<div class="evolution-chain"
+     *ngIf="evolutionChain.length > 0">
+  <span class="evolution-unit"
+        *ngFor="let evolution of evolutionChain; let last = last"
+        [routerLink]="'/pokemon/' + evolution.id"
+        routerLinkActive="router-link-active">
+    <div class="evolution-info">
+      <img [src]="evolution.image"
+           alt="{{ evolution.name }}"
+           width="50"
+           height="50" />
+      {{ evolution.name | titlecase }}
+    </div>
+
+    <span *ngIf="!last"> → </span>
+  </span>
+</div>

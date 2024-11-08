@@ -33,7 +33,7 @@
       padding: 16px;
       background: #e5e9f0;
       border-radius: 8px;
-      box-shadow: 0 1px 2px 0 #4c566acc;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-flow: column wrap;
       align-items: start;
@@ -42,8 +42,8 @@
 
       &:hover {
         cursor: pointer;
-        transform: scale(1.05);
-        background: #e5e9f0ff;
+        // transform: scale(1.05);
+        background: #eceff4;
       }
     }
 

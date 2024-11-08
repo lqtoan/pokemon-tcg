@@ -1,9 +1,10 @@
-<header class="pokedex-header" routerLink="/" routerLinkActive="router-link-active"  >
-  <h1>Pokemon</h1>
+<header class="pokedex-header">
+  <h1 routerLink="/" routerLinkActive="router-link-active">Pokemon</h1>
 
   <nav class="nav">
-    <a routerLink="tcg" routerLinkActive="active">TCG</a>
-    <a routerLink="pokedex" routerLinkActive="active">Pokedex</a>
+    <a routerLink="/pokedex" routerLinkActive="active">Pokedex</a>
+    <a routerLink="/tcg" routerLinkActive="active">TCG</a>
   </nav>
 </header>
+
 <router-outlet />

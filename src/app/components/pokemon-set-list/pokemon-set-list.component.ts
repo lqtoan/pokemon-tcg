@@ -10,13 +10,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './pokemon-set-list.component.scss'
 })
 export class PokemonSetListComponent {
-  private pokemonTcgService = inject(PokemonTcgService);
 
   isLoading = signal(false);
   groupedData = signal<Map<string, any[]>>(new Map());
   sortedData: any[] = [];
 
-  constructor() {
+  constructor(private pokemonTcgService: PokemonTcgService) {
     this.loadSets();
   }
 

@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -67,7 +66,6 @@ export class PokemonDetailsComponent implements OnInit {
         name: current.species.name,
         image: pokemonImage,
         url: current.species.url,
-        isCurrent: pokemonId === this.pokemonId,
       });
       current = current.evolves_to[0];
     }

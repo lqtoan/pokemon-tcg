@@ -11,4 +11,5 @@ import { RouterModule } from '@angular/router';
 })
 export class PokemonEvolutionChainComponent {
   @Input() evolutionChain: any[] = []; 
+  @Input() currentPokemonId: string = '';
 }

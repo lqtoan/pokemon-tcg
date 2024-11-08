@@ -58,5 +58,6 @@
       <span *ngIf="!last"> → </span>
     </span>
   </div> -->
-  <app-pokemon-evolution-chain [evolutionChain]="evolutionChain"></app-pokemon-evolution-chain>
+  <app-pokemon-evolution-chain [currentPokemonId]="pokemonId"
+                               [evolutionChain]="evolutionChain"></app-pokemon-evolution-chain>
 </div>

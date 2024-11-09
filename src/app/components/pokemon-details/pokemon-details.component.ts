@@ -51,7 +51,6 @@ export class PokemonDetailsComponent implements OnInit {
         const evolutionChainUrl = speciesData.evolution_chain.url;
   
         const evolutionData = await firstValueFrom(this._pokemonService.getEvolutionChain(evolutionChainUrl));
-        console.log(evolutionData);
         
         this.evolutionChain = this.parseEvolutionChain(evolutionData.chain);
       } catch (error) {

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PokemonDetailsComponent } from '../pokemon-details/pokemon-details.component';
+import { SelectedPokemon } from '../../models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-popup',
@@ -10,7 +11,7 @@ import { PokemonDetailsComponent } from '../pokemon-details/pokemon-details.comp
   styleUrl: './pokemon-popup.component.scss',
 })
 export class PokemonDetailsPopupComponent {
-  @Input() content: any;
+  @Input() content: SelectedPokemon | null = null;
   @Output() closePopup = new EventEmitter<void>();
 
   close(): void {

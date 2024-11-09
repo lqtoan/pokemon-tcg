@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { PokemonTcgService } from '../../services/pokemon-tcg.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Set } from '../../models/pokemon-tcg-set.model';
 
 @Component({
   selector: 'app-pokemon-set-list',
@@ -11,10 +12,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './pokemon-tcg-set-list.component.scss'
 })
 export class PokemonSetListComponent {
-
   isLoading = signal(false);
-  groupedData = signal<Map<string, any[]>>(new Map());
-  sortedData: any[] = [];
+  groupedData = signal<Map<string, Set[]>>(new Map());
+  sortedData: [string, Set[]][] = [];
   selectedSetId: string | null = null;
 
   constructor(private pokemonTcgService: PokemonTcgService) {
@@ -25,13 +25,13 @@ export class PokemonSetListComponent {
     this.isLoading.set(true);
     this.pokemonTcgService.getAllSets().subscribe({
       next: (response) => {
-        const sortedSets = response.data.sort((a: any, b: any) => {
+        const sortedSets = response.data.sort((a: Set, b: Set) => {
           return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
         });
 
-        const grouped = new Map<string, any[]>();
+        const grouped = new Map<string, Set[]>();
 
-        sortedSets.forEach((set: any) => {
+        sortedSets.forEach((set: Set) => {
           const series = set.series;
           const currentGroup = grouped.get(series) || [];
           

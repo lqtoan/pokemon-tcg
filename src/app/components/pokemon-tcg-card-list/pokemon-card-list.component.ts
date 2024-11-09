@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { PokemonTcgService } from '../../services/pokemon-tcg.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Card } from '../../models/pokemon-tcg-card.model';
 
 @Component({
   selector: 'app-pokemon-card-list',
@@ -12,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PokemonCardListComponent {
   isLoading = signal(false);
-  data = signal<any[]>([]);
+  data = signal<Card[]>([]);
   setId: string | null = '';
   title: string = '';
 
@@ -23,11 +24,8 @@ export class PokemonCardListComponent {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      console.log(params);
-      
+    this.route.paramMap.subscribe((params) => {      
       this.setId = params.get('id');
-      console.log(this.setId);
       
       if (this.setId) {
         this.loadSetDetails(this.setId);

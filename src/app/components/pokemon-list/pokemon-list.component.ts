@@ -23,11 +23,11 @@ export class PokemonListComponent implements OnInit {
   readonly scrollContainer = viewChild.required<ElementRef>('scrollContainer');
   
   pokemons = signal<UpdatedPokemon[]>([]);
+  isLoading = signal<boolean>(false);
   limit = 30;
   offset = 0;
   currentPage = 1;
   maxPage = 0;
-  isLoading = signal<boolean>(false);
   selectedPokemon: SelectedPokemon | null = null;
   showPopup = false;
 

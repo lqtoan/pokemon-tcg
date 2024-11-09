@@ -8,7 +8,6 @@ import {
   EvolutionDetail,
 } from '../../models/evolution-chain.model';
 import { Pokemon } from '../../models/pokemon.model';
-import { firstValueFrom } from 'rxjs';
 
 const mockPokemon = {
   id: 0,
@@ -76,27 +75,10 @@ const mockPokemon = {
     },
   ],
   species: {
-    name: 'bulbasaur',
+    name: '',
     url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
   },
-  abilities: [
-    {
-      ability: {
-        name: 'overgrow',
-        url: 'https://pokeapi.co/api/v2/ability/65/',
-      },
-      is_hidden: false,
-      slot: 1,
-    },
-    {
-      ability: {
-        name: 'chlorophyll',
-        url: 'https://pokeapi.co/api/v2/ability/34/',
-      },
-      is_hidden: true,
-      slot: 3,
-    },
-  ],
+  abilities: [],
   types: [
     {
       slot: 1,

@@ -13,7 +13,7 @@
   }
 
   @media (min-width: 1024px) {
-    max-width: 100%;
+    max-width: 1152px;
     padding: 16px;
   }
 }
@@ -38,7 +38,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 32px;
+  height: 64px;
   font-size: 1.2em;
   color: #555;
   animation: fadeIn 0.5s ease-in-out;

@@ -32,9 +32,13 @@
   }
 
   .pokemon-image {
+    width: 96px;
+    height: 96px;
     position: relative;
     border-radius: 50%;
     background: #fafafa;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     img {
       width: 96px;
@@ -160,7 +164,8 @@
     margin-top: 8px;
     display: flex;
     flex-direction: column;
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     font-size: 16px;
     gap: 8px;
   }

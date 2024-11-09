@@ -1,6 +1,7 @@
 .evolution-chain {
   margin-top: 16px;
   display: flex;
+  overflow: auto;
 
   .evolution-unit {
     display: flex;

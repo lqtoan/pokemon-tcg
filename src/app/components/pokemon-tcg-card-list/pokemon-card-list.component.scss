@@ -23,6 +23,7 @@
   margin: 0 auto;
   .series-title {
     margin: 16px 0;
+    font-size: 20px;
   }
 
   .list {
@@ -52,6 +53,9 @@
   .container {
     max-width: 480px;
     padding: 8px;
+    .series-title {
+      margin: 8px 0;
+    }
     .list {
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;

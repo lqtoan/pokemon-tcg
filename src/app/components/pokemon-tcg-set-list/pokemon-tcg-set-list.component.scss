@@ -23,6 +23,7 @@
   .series-title {
     margin: 16px 0;
     font-weight: 600;
+    font-size: 20px;
   }
   padding: 16px;
   .set-list {
@@ -109,6 +110,12 @@
           h3 {
             margin: 0;
             margin-bottom: 8px;
+
+            display: inline-block;
+            max-width: 200px;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       }

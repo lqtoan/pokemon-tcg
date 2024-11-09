@@ -34,13 +34,13 @@
   <div class="pokemon-grid">
     <app-pokemon-card *ngFor="let pokemon of pokemons()"
                       [pokemon]="pokemon"
-                      (click)="onShowPopup(pokemon)"></app-pokemon-card>
+                      (click)="togglePopup(pokemon)"></app-pokemon-card>
   </div>
 </div>
 
 <app-pokemon-popup *ngIf="showPopup"
                            [content]="selectedPokemon"
-                           (closePopup)="closePopup()"></app-pokemon-popup>
+                           (closePopup)="togglePopup()"></app-pokemon-popup>
 
 <div *ngIf="isLoading()"
      class="loading">

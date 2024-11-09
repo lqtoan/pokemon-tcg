@@ -1,11 +1,112 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PokemonEvolutionChainComponent } from '../pokemon-evolution-chain/pokemon-evolution-chain.component';
 import { PokemonService } from '../../services/pokemon.service';
-import { EvolutionChainPokemon, EvolutionDetail } from '../../models/evolution-chain.model';
+import {
+  EvolutionChainPokemon,
+  EvolutionDetail,
+} from '../../models/evolution-chain.model';
 import { Pokemon } from '../../models/pokemon.model';
 import { firstValueFrom } from 'rxjs';
+
+const mockPokemon = {
+  id: 0,
+  name: '',
+  height: 0,
+  weight: 0,
+  sprites: {
+    back_default: null,
+    back_female: null,
+    front_default: null,
+    front_female: null,
+    back_shiny: null,
+    back_shiny_female: null,
+    front_shiny: null,
+    front_shiny_female: null,
+  },
+  stats: [
+    {
+      base_stat: 0,
+      effort: 0,
+      stat: {
+        name: 'hp',
+        url: 'https://pokeapi.co/api/v2/stat/1/',
+      },
+    },
+    {
+      base_stat: 0,
+      effort: 0,
+      stat: {
+        name: 'attack',
+        url: 'https://pokeapi.co/api/v2/stat/2/',
+      },
+    },
+    {
+      base_stat: 0,
+      effort: 0,
+      stat: {
+        name: 'defense',
+        url: 'https://pokeapi.co/api/v2/stat/3/',
+      },
+    },
+    {
+      base_stat: 0,
+      effort: 1,
+      stat: {
+        name: 'special-attack',
+        url: 'https://pokeapi.co/api/v2/stat/4/',
+      },
+    },
+    {
+      base_stat: 0,
+      effort: 0,
+      stat: {
+        name: 'special-defense',
+        url: 'https://pokeapi.co/api/v2/stat/5/',
+      },
+    },
+    {
+      base_stat: 0,
+      effort: 0,
+      stat: {
+        name: 'speed',
+        url: 'https://pokeapi.co/api/v2/stat/6/',
+      },
+    },
+  ],
+  species: {
+    name: 'bulbasaur',
+    url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
+  },
+  abilities: [
+    {
+      ability: {
+        name: 'overgrow',
+        url: 'https://pokeapi.co/api/v2/ability/65/',
+      },
+      is_hidden: false,
+      slot: 1,
+    },
+    {
+      ability: {
+        name: 'chlorophyll',
+        url: 'https://pokeapi.co/api/v2/ability/34/',
+      },
+      is_hidden: true,
+      slot: 3,
+    },
+  ],
+  types: [
+    {
+      slot: 1,
+      type: {
+        name: 'normal',
+        url: 'https://pokeapi.co/api/v2/type/1/',
+      },
+    },
+  ],
+};
 
 @Component({
   selector: 'app-pokemon-details',
@@ -16,78 +117,89 @@ import { firstValueFrom } from 'rxjs';
 })
 export class PokemonDetailsComponent implements OnInit {
   @Input() pokemonId: number = 0;
-  
-  pokemon?: Pokemon;
-  evolutionChain: EvolutionChainPokemon[] = []; 
-  isLoading: boolean = false;
+
+  // Sử dụng signals để quản lý trạng thái
+  pokemon = signal<Pokemon>(mockPokemon);
+  evolutionChain = signal<EvolutionChainPokemon[]>([]);
+  isLoading = signal<boolean>(false);
 
   constructor(private _pokemonService: PokemonService) {}
 
   ngOnInit(): void {
-    this.getPokemonDetails(this.pokemonId);
+    this.loadPokemonDetails(this.pokemonId);
   }
 
-  getPokemonDetails(id: number): void {
-    this.isLoading = true;
+  private loadPokemonDetails(id: number): void {
+    this.isLoading.set(true);
     this._pokemonService.getPokemonDetails(id).subscribe({
       next: (res) => {
-        this.pokemon = res;
-        this.getEvolutionChain();
+        this.pokemon.set(res);
+        this.loadEvolutionChain();
       },
-      error: () => {
-        this.isLoading = false;
+      error: (error) => {
+        console.error('Error fetching Pokémon details:', error);
+        this.isLoading.set(false);
       }
     });
   }
 
-  getEvolutionChain(): void {
+  private loadEvolutionChain(): void {
     if (!this.pokemonId) return;
-  
-    this.isLoading = true;
-  
-    const getSpeciesData = async () => {
-      try {
-        const speciesData = await firstValueFrom(this._pokemonService.getPokemonSpecies(this.pokemonId));
+
+    this._pokemonService.getPokemonSpecies(this.pokemonId).subscribe({
+      next: (speciesData) => {
         const evolutionChainUrl = speciesData.evolution_chain.url;
-  
-        const evolutionData = await firstValueFrom(this._pokemonService.getEvolutionChain(evolutionChainUrl));
-        
-        this.evolutionChain = this.parseEvolutionChain(evolutionData.chain);
-      } catch (error) {
-        console.error('Error fetching evolution chain', error);
-      } finally {
-        this.isLoading = false;
+        this._pokemonService.getEvolutionChain(evolutionChainUrl).subscribe({
+          next: (evolutionData) => {
+            this.evolutionChain.set(this.parseEvolutionChain(evolutionData.chain));
+            this.isLoading.set(false);
+          },
+          error: (error) => {
+            console.error('Error fetching evolution chain:', error);
+            this.isLoading.set(false);
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error fetching species data:', error);
+        this.isLoading.set(false);
       }
-    };
-  
-    getSpeciesData();
+    });
   }
 
-  parseEvolutionChain(chain: EvolutionDetail): EvolutionChainPokemon[] {
+  private parseEvolutionChain(chain: EvolutionDetail): EvolutionChainPokemon[] {
     const chainArray: EvolutionChainPokemon[] = [];
-    let current = chain;
 
-    while (current) {
-      const pokemonId = this._pokemonService.getIdFromUrl(current.species.url);
+    const addEvolutionToChain = (evolution: EvolutionDetail | null) => {
+      if (!evolution) return;
+      const pokemonId = this._pokemonService.getIdFromUrl(evolution.species.url);
       const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
       
       chainArray.push({
         id: pokemonId,
-        name: current.species.name,
+        name: evolution.species.name,
         image: pokemonImage,
-        url: current.species.url,
+        url: evolution.species.url,
       });
-      current = current.evolves_to[0];
-    }
+      addEvolutionToChain(evolution.evolves_to[0] || null);
+    };
+
+    addEvolutionToChain(chain);
     return chainArray;
   }
 
-  onPokemonSelected(pokemonId: number): void { 
-    this.isLoading = true;
-    this._pokemonService.getPokemonDetails(pokemonId).subscribe((res) => {      
-      this.pokemon = res;
-      this.pokemonId = res.id;
-      this.isLoading = false;
+  onPokemonSelected(pokemonId: number): void {
+    this.isLoading.set(true);
+    this._pokemonService.getPokemonDetails(pokemonId).subscribe({
+      next: (res) => {
+        this.pokemon.set(res);
+        this.pokemonId = res.id;
+        this.isLoading.set(false);
+      },
+      error: (error) => {
+        console.error('Error fetching selected Pokémon details:', error);
+        this.isLoading.set(false);
+      }
     });
   }
 }

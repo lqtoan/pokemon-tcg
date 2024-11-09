@@ -1,18 +1,18 @@
 <!-- <span class="back" routerLink='/'routerLinkActive="router-link-active" > ← </span> -->
 
-<div *ngIf="isLoading"
+<div *ngIf="isLoading()"
      class="loading">
   <p>Đang tải Pokémon...</p> <!-- Hoặc có thể thay bằng biểu tượng loading -->
 </div>
 
-<div *ngIf="!isLoading && pokemon"
+<div *ngIf="!isLoading()"
      class="pokemon-card">
 
-  <span class="pokemon-id">#{{ pokemonId }}</span><span class="pokemon-name"> {{ pokemon.name | titlecase }}</span>
+  <span class="pokemon-id">#{{ pokemonId }}</span><span class="pokemon-name"> {{ pokemon().name | titlecase }}</span>
 
   <div class="pokemon-image">
-    <img [src]="pokemon.sprites.front_default"
-         alt="{{ pokemon.name }}" />
+    <img [src]="pokemon().sprites.front_default"
+         alt="{{ pokemon().name }}" />
 
     <!-- <div class="navigation-buttons">
       <button class="navigation-prev"
@@ -25,8 +25,8 @@
   </div>
 
   <div class="pokemon-types"
-       *ngIf="pokemon.types">
-    <span *ngFor="let type of pokemon.types"
+       *ngIf="pokemon().types">
+    <span *ngFor="let type of pokemon().types"
           class="type {{ type.type.name }}">
       {{ type.type.name | titlecase }}
     </span>
@@ -35,16 +35,16 @@
   <div class="pokemon-bmi">
     <div class="pokemon-bmi-item">
       <span class="label">Height:</span>
-      <span class="value">{{ pokemon.height / 10 | number: '1.2-2' }} m</span>
+      <span class="value">{{ pokemon().height / 10 | number: '1.2-2' }} m</span>
     </div>
     <div class="pokemon-bmi-item">
       <span class="label">Weight:</span>
-      <span class="value">{{ pokemon.weight / 10 | number: '1.2-2' }} kg</span>
+      <span class="value">{{ pokemon().weight / 10 | number: '1.2-2' }} kg</span>
     </div>
   </div>
 
   <div class="pokemon-stats">
-    <div *ngFor="let stat of pokemon.stats">
+    <div *ngFor="let stat of pokemon().stats">
       <span class="stat-value">{{ stat.base_stat }}</span>
       <span class="stat-name">{{ stat.stat.name }}</span>
     </div>
@@ -59,6 +59,6 @@
     </span>
   </div> -->
   <app-pokemon-evolution-chain [currentPokemonId]="pokemonId"
-                               [evolutionChain]="evolutionChain"
+                               [evolutionChain]="evolutionChain()"
                                (pokemonSelected)="onPokemonSelected($event)"></app-pokemon-evolution-chain>
 </div>

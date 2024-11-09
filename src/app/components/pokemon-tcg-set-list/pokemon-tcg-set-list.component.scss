@@ -92,6 +92,9 @@
   .sets {
     max-width: 480px;
     padding: 8px;
+    .series-title {
+      margin: 8px 0;
+    }
     .set-list {
       grid-template-columns: repeat(1, 1fr);
       .set-item {

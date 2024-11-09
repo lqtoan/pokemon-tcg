@@ -15,6 +15,13 @@
         width: 96px;
         height: 96px;
       }
+
+      @media screen and (max-width: 767px) {
+        img {
+          width: 84px;
+          height: 84px;
+        }
+      }
     }
   }
 

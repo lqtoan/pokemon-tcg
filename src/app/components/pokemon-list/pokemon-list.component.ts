@@ -6,7 +6,7 @@ import { PokemonService } from '../../services/pokemon.service';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { NamedAPIResource, Pokemon, UpdatedPokemon } from '../../models/pokemon.model';
 
 @Component({

@@ -1,7 +1,6 @@
 import { SelectedPokemon } from './../../models/pokemon.model';
-import { PokemonDetailsComponent } from './../pokemon-details/pokemon-details.component';
 import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.component';
-import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, signal, viewChild } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 import { CommonModule } from '@angular/common';
@@ -16,14 +15,13 @@ import { NamedAPIResource, Pokemon, UpdatedPokemon } from '../../models/pokemon.
     CommonModule,
     FormsModule,
     PokemonCardComponent,
-    PokemonDetailsPopupComponent,
-    PokemonDetailsComponent
+    PokemonDetailsPopupComponent
   ],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })
 export class PokemonListComponent implements OnInit {
-  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+  readonly scrollContainer = viewChild.required<ElementRef>('scrollContainer');
 
   pokemons = signal<UpdatedPokemon[]>([]);
   limit = 30;
@@ -93,7 +91,7 @@ export class PokemonListComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    const element = this.scrollContainer?.nativeElement;
+    const element = this.scrollContainer()?.nativeElement;
     if (
       element &&
       element.scrollTop + element.clientHeight >= element.scrollHeight - 200 &&

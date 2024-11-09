@@ -12,8 +12,10 @@
       align-items: center;
       align-content: center;
       img {
+        background: #fafafa;
         width: 96px;
         height: 96px;
+        border-radius: 50%;
       }
 
       @media screen and (max-width: 767px) {
@@ -22,13 +24,17 @@
           height: 84px;
         }
       }
+
+      &__id {
+        font-size: 10px;
+        color: #999;
+      }
     }
   }
 
   .current {
     img {
-      border: 2px solid #b48ead;
-      border-radius: 50%;
+      border: 1px solid #b48ead;
     }
   }
 

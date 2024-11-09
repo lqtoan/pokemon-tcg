@@ -6,9 +6,10 @@
         (click)="onPokemonClick(evolution.id)">
     <div class="evolution-info">
       <img [src]="evolution.image"
-           alt="{{ evolution.name }}"
-           width="50"
-           height="50" />
+      alt="{{ evolution.name }}"
+      width="50"
+      height="50" />
+      <span class="evolution-info__id">#{{ evolution.id }}</span>
       {{ evolution.name | titlecase }}
     </div>
 

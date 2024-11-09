@@ -37,8 +37,6 @@ export class PokemonCardListComponent {
   loadSetDetails(setId: string) {
     this.pokemonTcgService.getSetById(setId).subscribe({
       next: (response) => {
-        console.log(response);
-        
         this.title = response.data.name;
       },
       error: (error) => {

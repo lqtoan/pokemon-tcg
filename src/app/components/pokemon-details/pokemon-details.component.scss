@@ -34,6 +34,7 @@
   .pokemon-image {
     position: relative;
     border-radius: 50%;
+    background: #fafafa;
 
     img {
       width: 96px;
@@ -159,7 +160,6 @@
     margin-top: 8px;
     display: flex;
     flex-direction: column;
-    font-family: "Arial", sans-serif;
     width: 250px;
     font-size: 16px;
     gap: 8px;

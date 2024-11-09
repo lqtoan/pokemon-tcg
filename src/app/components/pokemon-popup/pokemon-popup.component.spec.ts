@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PokemonDetailsPopupComponent } from './pokemon-details-popup.component';
+import { PokemonDetailsPopupComponent } from './pokemon-popup.component';
 
 describe('PokemonDetailsPopupComponent', () => {
   let component: PokemonDetailsPopupComponent;

@@ -28,13 +28,11 @@
   position: relative;
 
   @media (min-width: 1024px) {
-    margin: 16px auto;
+    margin: 0 auto;
   }
 
   .pokemon-image {
     position: relative;
-
-    background: #fafafa;
     border-radius: 50%;
 
     img {

@@ -38,9 +38,9 @@
   </div>
 </div>
 
-<app-pokemon-details-popup *ngIf="showPopup"
-                           [pokemon]="selectedPokemon"
-                           (closePopup)="closePopup()"></app-pokemon-details-popup>
+<app-pokemon-popup *ngIf="showPopup"
+                           [content]="selectedPokemon"
+                           (closePopup)="closePopup()"></app-pokemon-popup>
 
 <div *ngIf="isLoading()"
      class="loading">

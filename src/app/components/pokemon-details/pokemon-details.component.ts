@@ -12,7 +12,7 @@ import { PokemonService } from '../../services/pokemon.service';
   styleUrls: ['./pokemon-details.component.scss'],
 })
 export class PokemonDetailsComponent implements OnInit {
-  @Input() pokemonId: string = '';
+  @Input() pokemonId: number = 0;
   
   pokemon: any;
   evolutionChain: any[] = []; 
@@ -24,13 +24,16 @@ export class PokemonDetailsComponent implements OnInit {
     this.getPokemonDetails(this.pokemonId);
   }
 
-  getPokemonDetails(id: string): void {
+  getPokemonDetails(id: number): void {
     this.isLoading = true;
-    this._pokemonService.getPokemonDetails(id).subscribe((res) => {
-      this.pokemon = res;
-      this.getEvolutionChain();
-    }, () => {
-      this.isLoading = false;
+    this._pokemonService.getPokemonDetails(id).subscribe({
+      next: (res) => {
+        this.pokemon = res;
+        this.getEvolutionChain();
+      },
+      error: () => {
+        this.isLoading = false;
+      }
     });
   }
 
@@ -68,7 +71,7 @@ export class PokemonDetailsComponent implements OnInit {
     return chainArray;
   }
 
-  onPokemonSelected(pokemonId: string): void { 
+  onPokemonSelected(pokemonId: number): void { 
     this.isLoading = true;
     this._pokemonService.getPokemonDetails(pokemonId).subscribe((res) => {      
       this.pokemon = res;

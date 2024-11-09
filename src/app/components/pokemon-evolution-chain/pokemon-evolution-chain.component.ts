@@ -11,11 +11,11 @@ import { RouterModule } from '@angular/router';
 })
 export class PokemonEvolutionChainComponent {
   @Input() evolutionChain: any[] = []; 
-  @Input() currentPokemonId: string = '';
+  @Input() currentPokemonId: number = 0;
 
-  @Output() pokemonSelected = new EventEmitter<string>();
+  @Output() pokemonSelected = new EventEmitter<number>();
 
-  onPokemonClick(pokemonId: string) {
+  onPokemonClick(pokemonId: number) {
     this.pokemonSelected.emit(pokemonId);
   }
 }

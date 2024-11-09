@@ -1,10 +1,11 @@
 import { PokemonDetailsComponent } from './../pokemon-details/pokemon-details.component';
-import { PokemonDetailsPopupComponent } from './../pokemon-details-popup/pokemon-details-popup.component';
+import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.component';
 import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -39,20 +40,21 @@ export class PokemonListComponent implements OnInit {
 
   getPokemons(): void {
     if (this.isLoading()) return;
-
+  
     this.isLoading.set(true);
     this.offset = (this.currentPage - 1) * this.limit;
-
+  
     this._pokemonService.getPokemonList(this.limit, this.offset).subscribe((response) => {
       this.maxPage = Math.ceil(response.count / this.limit);
       const pokemonList = response.results;
-
-      const pokemonDataPromises = pokemonList.map((pokemon: any) =>
-        this._pokemonService.getPokemonData(pokemon.url).toPromise()
+  
+      // Sử dụng forkJoin để thay thế toPromise() cho các yêu cầu HTTP đồng thời
+      const pokemonDataObservables = pokemonList.map((pokemon: any) =>
+        this._pokemonService.getPokemonData(pokemon.url)
       );
-
-      Promise.all(pokemonDataPromises)
-        .then((dataList) => {
+  
+      forkJoin<any[]>(pokemonDataObservables).subscribe({
+        next: (dataList) => {
           const updatedPokemons = dataList.map((data, index) => ({
             ...pokemonList[index],
             data,
@@ -65,13 +67,14 @@ export class PokemonListComponent implements OnInit {
               speed: data.stats[5].base_stat,
             },
           }));
-
+  
           this.pokemons.set([...this.pokemons(), ...updatedPokemons]);
           this.isLoading.set(false);
-        })
-        .catch(() => {
+        },
+        error: () => {
           this.isLoading.set(false);
-        });
+        }
+      });
     });
   }
 

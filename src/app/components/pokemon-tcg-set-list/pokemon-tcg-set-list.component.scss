@@ -27,7 +27,7 @@
   padding: 16px;
   .set-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 
     .set-item {
@@ -62,7 +62,6 @@
     }
 
     .set-info {
-      padding: 16px;
       font-size: 14px;
       line-height: 1.5;
 
@@ -78,10 +77,10 @@
   .sets {
     max-width: 960px;
     .set-list {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       .set-item {
         .set-info {
-          padding: 32px;
+          padding: 16px;
         }
       }
     }
@@ -91,12 +90,26 @@
 @media screen and (max-width: 767px) {
   .sets {
     max-width: 480px;
-    padding: 16px;
+    padding: 8px;
     .set-list {
       grid-template-columns: repeat(1, 1fr);
       .set-item {
+        padding: 8px;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        .set-logo {
+          width: 120px;
+          height: 120px;
+          margin-right: 8px;
+        }
         .set-info {
           padding: 0;
+
+          h3 {
+            margin: 0;
+            margin-bottom: 8px;
+          }
         }
       }
     }

@@ -1,3 +1,4 @@
+import { SelectedPokemon } from './../../models/pokemon.model';
 import { PokemonDetailsComponent } from './../pokemon-details/pokemon-details.component';
 import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.component';
 import { Component, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
@@ -5,7 +6,8 @@ import { PokemonService } from '../../services/pokemon.service';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
+import { NamedAPIResource, Pokemon, UpdatedPokemon } from '../../models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -23,13 +25,13 @@ import { forkJoin } from 'rxjs';
 export class PokemonListComponent implements OnInit {
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
 
-  pokemons = signal<any[]>([]);
+  pokemons = signal<UpdatedPokemon[]>([]);
   limit = 30;
   offset = 0;
   currentPage = 1;
   maxPage = 0;
   isLoading = signal<boolean>(false);
-  selectedPokemon: any = null;
+  selectedPokemon: SelectedPokemon | null = null;
   showPopup: boolean = false;
 
   constructor(private _pokemonService: PokemonService) {}
@@ -46,14 +48,13 @@ export class PokemonListComponent implements OnInit {
   
     this._pokemonService.getPokemonList(this.limit, this.offset).subscribe((response) => {
       this.maxPage = Math.ceil(response.count / this.limit);
-      const pokemonList = response.results;
-  
-      // Sử dụng forkJoin để thay thế toPromise() cho các yêu cầu HTTP đồng thời
-      const pokemonDataObservables = pokemonList.map((pokemon: any) =>
+      const pokemonList: NamedAPIResource[] = response.results;
+
+      const pokemonDataObservables = pokemonList.map((pokemon: NamedAPIResource) =>
         this._pokemonService.getPokemonData(pokemon.url)
       );
   
-      forkJoin<any[]>(pokemonDataObservables).subscribe({
+      forkJoin<Pokemon[]>(pokemonDataObservables).subscribe({
         next: (dataList) => {
           const updatedPokemons = dataList.map((data, index) => ({
             ...pokemonList[index],
@@ -78,18 +79,7 @@ export class PokemonListComponent implements OnInit {
     });
   }
 
-  onSearch(e: any) {
-    const searchQuery = e.target.value.toLowerCase();
-    if (searchQuery) {
-      this._pokemonService.searchPokemon(searchQuery).subscribe((res) => {
-        this.pokemons.set([res]);
-      });
-    } else {
-      this.getPokemons();
-    }
-  }
-
-  onShowPopup(pokemon: any) {
+  onShowPopup(pokemon: UpdatedPokemon) {
     this.selectedPokemon = {
       id: pokemon.data.id,
       data: pokemon.data

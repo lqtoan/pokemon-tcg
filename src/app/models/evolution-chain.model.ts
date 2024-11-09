@@ -19,3 +19,10 @@ export interface EvolutionTriggerDetail {
   location?: NamedAPIResource;
   // Có thể bổ sung thêm các yếu tố khác như min_happiness, min_beauty, etc.
 }
+
+export interface EvolutionChainPokemon {
+  id: number;
+  name: string;
+  image: string;
+  url: string;
+}

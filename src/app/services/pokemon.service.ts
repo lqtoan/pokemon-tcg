@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pokemon, PokemonListResponse } from '../models/pokemon.model';
+import { PokemonSpecies } from '../models/pokemon-species.model';
+import { EvolutionChain } from '../models/evolution-chain.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,23 +25,23 @@ export class PokemonService {
   }
 
   searchPokemon(name: string): Observable<Pokemon> {
-    return this.http.get<any>(`${this.baseUrl}/${name}`);
+    return this.http.get<Pokemon>(`${this.baseUrl}/${name}`);
   }
 
   getPokemonDetails(id: number): Observable<Pokemon> {
-    return this.http.get<any>(`${this.baseUrl}/pokemon/${id}`);
+    return this.http.get<Pokemon>(`${this.baseUrl}/pokemon/${id}`);
   }
 
-  getPokemonSpecies(id: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/pokemon-species/${id}`);
+  getPokemonSpecies(id: number): Observable<PokemonSpecies> {
+    return this.http.get<PokemonSpecies>(`${this.baseUrl}/pokemon-species/${id}`);
   }
 
-  getEvolutionChain(url: string): Observable<any> {
-    return this.http.get<any>(url);
+  getEvolutionChain(url: string): Observable<EvolutionChain> {
+    return this.http.get<EvolutionChain>(url);
   }
 
-  getIdFromUrl(url: string): string {
+  getIdFromUrl(url: string): number {
     const parts = url.split('/');
-    return parts[parts.length - 2];
+    return parseInt(parts[parts.length - 2]);
   }
 }

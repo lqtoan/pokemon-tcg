@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UpdatedPokemon } from '../../models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -10,7 +11,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./pokemon-card.component.scss']
 })
 export class PokemonCardComponent {
-  @Input() pokemon: any;
+  @Input() pokemon?: UpdatedPokemon;
 
   constructor() {}
 }

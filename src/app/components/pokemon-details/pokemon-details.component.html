@@ -5,7 +5,7 @@
   <p>Đang tải Pokémon...</p> <!-- Hoặc có thể thay bằng biểu tượng loading -->
 </div>
 
-<div *ngIf="!isLoading"
+<div *ngIf="!isLoading && pokemon"
      class="pokemon-card">
 
   <span class="pokemon-id">#{{ pokemonId }}</span><span class="pokemon-name"> {{ pokemon.name | titlecase }}</span>

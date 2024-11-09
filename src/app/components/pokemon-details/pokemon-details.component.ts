@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PokemonEvolutionChainComponent } from '../pokemon-evolution-chain/pokemon-evolution-chain.component';
 import { PokemonService } from '../../services/pokemon.service';
+import { EvolutionChainPokemon, EvolutionDetail } from '../../models/evolution-chain.model';
+import { Pokemon } from '../../models/pokemon.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -14,8 +17,8 @@ import { PokemonService } from '../../services/pokemon.service';
 export class PokemonDetailsComponent implements OnInit {
   @Input() pokemonId: number = 0;
   
-  pokemon: any;
-  evolutionChain: any[] = []; 
+  pokemon?: Pokemon;
+  evolutionChain: EvolutionChainPokemon[] = []; 
   isLoading: boolean = false;
 
   constructor(private _pokemonService: PokemonService) {}
@@ -39,21 +42,30 @@ export class PokemonDetailsComponent implements OnInit {
 
   getEvolutionChain(): void {
     if (!this.pokemonId) return;
-    
-    this._pokemonService.getPokemonSpecies(this.pokemonId).subscribe((speciesData) => {
-      const evolutionChainUrl = speciesData.evolution_chain.url;
-
-      this._pokemonService.getEvolutionChain(evolutionChainUrl).subscribe((evolutionData) => {
+  
+    this.isLoading = true;
+  
+    const getSpeciesData = async () => {
+      try {
+        const speciesData = await firstValueFrom(this._pokemonService.getPokemonSpecies(this.pokemonId));
+        const evolutionChainUrl = speciesData.evolution_chain.url;
+  
+        const evolutionData = await firstValueFrom(this._pokemonService.getEvolutionChain(evolutionChainUrl));
+        console.log(evolutionData);
+        
         this.evolutionChain = this.parseEvolutionChain(evolutionData.chain);
+      } catch (error) {
+        console.error('Error fetching evolution chain', error);
+      } finally {
         this.isLoading = false;
-      }, () => {
-        this.isLoading = false;
-      });
-    });
+      }
+    };
+  
+    getSpeciesData();
   }
 
-  parseEvolutionChain(chain: any): any[] {
-    const chainArray = [];
+  parseEvolutionChain(chain: EvolutionDetail): EvolutionChainPokemon[] {
+    const chainArray: EvolutionChainPokemon[] = [];
     let current = chain;
 
     while (current) {

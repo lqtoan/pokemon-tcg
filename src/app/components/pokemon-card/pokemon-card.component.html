@@ -1,7 +1,7 @@
-<div class="pokemon-card">
+<div *ngIf="pokemon" class="pokemon-card">
   <div class="pokemon-image">
     <img loading="lazy"
-         [src]="pokemon.data.sprites?.front_default"
+         [src]="pokemon.data.sprites.front_default"
          alt="?" />
   </div>
   <div class="pokemon-info">

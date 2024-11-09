@@ -47,10 +47,26 @@ export interface PokemonListResponse {
   count: number;
   next: string | null;
   previous: string | null;
-  results: BasicPokemonInfo[];
+  results: NamedAPIResource[];
 }
 
-export interface BasicPokemonInfo {
+export interface PokemonStats {
+  hp: number;
+  attack: number;
+  defense: number;
+  speAttack: number;
+  speDefense: number;
+  speed: number;
+}
+
+export interface UpdatedPokemon {
   name: string;
   url: string;
+  data: Pokemon;
+  stats: PokemonStats;
+}
+
+export interface SelectedPokemon {
+  id: number;
+  data: Pokemon;
 }

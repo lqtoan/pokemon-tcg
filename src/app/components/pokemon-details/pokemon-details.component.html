@@ -10,13 +10,18 @@
 
   <span class="pokemon-id">#{{ pokemonId }}</span><span class="pokemon-name"> {{ pokemon().name | titlecase }}</span>
 
-  <div class="pokemon-image">
-    <img *ngIf="pokemon().sprites.front_default !== null; else noImage" [src]="pokemon().sprites.front_default"
-         alt="{{ pokemon().name }}" />
-
-         <ng-template #noImage>
-          <img src="/assets/images/default.png" alt="" srcset="">
-        </ng-template>
+  <div class="pokemon-images">
+    <div *ngIf="pokemon().sprites.front_default" class="normal-forms">
+      <p>Normal</p>
+      <img *ngIf="pokemon().sprites.front_default" [src]="pokemon().sprites.front_default" alt="{{ pokemon().name }} front normal" />
+      <!-- <img *ngIf="pokemon().sprites.back_default" [src]="pokemon().sprites.back_default" alt="{{ pokemon().name }} back normal" /> -->
+    </div>
+  
+    <div *ngIf="pokemon().sprites.front_shiny" class="shiny-forms">
+      <p>Shiny</p>
+      <img *ngIf="pokemon().sprites.front_shiny" [src]="pokemon().sprites.front_shiny" alt="{{ pokemon().name }} front shiny" />
+      <!-- <img *ngIf="pokemon().sprites.back_shiny" [src]="pokemon().sprites.back_shiny" alt="{{ pokemon().name }} back shiny" /> -->
+    </div>
   </div>
 
   <div class="pokemon-types"
@@ -44,7 +49,6 @@
       <span class="stat-name">{{ stat.stat.name }}</span>
     </div>
   </div>
-  <hr>
   <span class="total-stats">
     <span class="total-name" >Total Base Stat:</span>
     <span class="total-value">{{ getTotalBaseStat() }}</span>

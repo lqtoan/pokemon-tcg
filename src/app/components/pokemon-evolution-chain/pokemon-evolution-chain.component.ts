@@ -11,7 +11,7 @@ import { EvolutionChain, EvolutionChainPokemon } from '../../models/evolution-ch
   styleUrl: './pokemon-evolution-chain.component.scss'
 })
 export class PokemonEvolutionChainComponent {
-  @Input() evolutionChain: EvolutionChainPokemon[] = []; 
+  @Input() evolutionChain: EvolutionChainPokemon[][] = []; 
   @Input() currentPokemonId: number = 0;
 
   @Output() pokemonSelected = new EventEmitter<number>();

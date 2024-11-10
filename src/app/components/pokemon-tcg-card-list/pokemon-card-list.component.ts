@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { PokemonTcgService } from '../../services/pokemon-tcg.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Card } from '../../models/pokemon-tcg-card.model';
 
 @Component({
@@ -18,6 +18,7 @@ export class PokemonCardListComponent {
   title: string = '';
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private pokemonTcgService: PokemonTcgService
   ) {
@@ -58,5 +59,9 @@ export class PokemonCardListComponent {
         this.isLoading.set(false);
       },
     });
+  }
+
+  goBack() {
+    this.router.navigate(['/tcg']);
   }
 }

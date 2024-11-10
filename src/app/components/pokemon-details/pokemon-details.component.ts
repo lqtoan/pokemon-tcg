@@ -102,7 +102,7 @@ export class PokemonDetailsComponent implements OnInit {
 
   // Sử dụng signals để quản lý trạng thái
   pokemon = signal<Pokemon>(mockPokemon);
-  evolutionChain = signal<EvolutionChainPokemon[]>([]);
+  evolutionChain = signal<EvolutionChainPokemon[][]>([]);
   isLoading = signal<boolean>(false);
 
   constructor(private _pokemonService: PokemonService) {}
@@ -149,26 +149,37 @@ export class PokemonDetailsComponent implements OnInit {
     });
   }
 
-  private parseEvolutionChain(chain: EvolutionDetail): EvolutionChainPokemon[] {
-    const chainArray: EvolutionChainPokemon[] = [];
-
-    const addEvolutionToChain = (evolution: EvolutionDetail | null) => {
-      if (!evolution) return;
-      const pokemonId = this._pokemonService.getIdFromUrl(evolution.species.url);
-      const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
-      
-      chainArray.push({
-        id: pokemonId,
-        name: evolution.species.name,
-        image: pokemonImage,
-        url: evolution.species.url,
+  private parseEvolutionChain(chain: EvolutionDetail): EvolutionChainPokemon[][] {
+    const chainArray: EvolutionChainPokemon[][] = [];
+  
+    const addEvolutionLevelToChain = (evolutions: EvolutionDetail[]) => {
+      if (!evolutions.length) return;
+  
+      const currentLevel: EvolutionChainPokemon[] = evolutions.map(evolution => {
+        const pokemonId = this._pokemonService.getIdFromUrl(evolution.species.url);
+        const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+  
+        return {
+          id: pokemonId,
+          name: evolution.species.name,
+          image: pokemonImage,
+          url: evolution.species.url,
+        };
       });
-      addEvolutionToChain(evolution.evolves_to[0] || null);
+  
+      // Thêm cấp độ tiến hóa hiện tại vào chainArray
+      chainArray.push(currentLevel);
+  
+      // Tiếp tục duyệt cấp độ tiếp theo của mỗi Pokémon ở cấp hiện tại
+      const nextLevelEvolutions = evolutions.flatMap(evolution => evolution.evolves_to);
+      addEvolutionLevelToChain(nextLevelEvolutions);
     };
-
-    addEvolutionToChain(chain);
+  
+    // Bắt đầu thêm chuỗi tiến hóa từ Pokémon gốc
+    addEvolutionLevelToChain([chain]);
     return chainArray;
   }
+  
 
   onPokemonSelected(pokemonId: number): void {
     this.isLoading.set(true);
@@ -184,4 +195,8 @@ export class PokemonDetailsComponent implements OnInit {
       }
     });
   }
+
+  getTotalBaseStat(): number {
+    return this.pokemon().stats.reduce((total, stat) => total + stat.base_stat, 0);
+  }  
 }

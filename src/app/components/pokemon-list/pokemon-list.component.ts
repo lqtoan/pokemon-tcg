@@ -24,12 +24,13 @@ export class PokemonListComponent implements OnInit {
   
   pokemons = signal<UpdatedPokemon[]>([]);
   isLoading = signal<boolean>(false);
-  limit = 30;
-  offset = 0;
-  currentPage = 1;
-  maxPage = 0;
   selectedPokemon: SelectedPokemon | null = null;
   showPopup = false;
+
+  private currentPage = 1;
+  private maxPage = 0;
+  private limit = 30;
+  private offset = 0;
 
   constructor(private _pokemonService: PokemonService) {}
 

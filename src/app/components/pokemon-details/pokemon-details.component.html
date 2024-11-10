@@ -11,17 +11,12 @@
   <span class="pokemon-id">#{{ pokemonId }}</span><span class="pokemon-name"> {{ pokemon().name | titlecase }}</span>
 
   <div class="pokemon-image">
-    <img [src]="pokemon().sprites.front_default"
+    <img *ngIf="pokemon().sprites.front_default !== null; else noImage" [src]="pokemon().sprites.front_default"
          alt="{{ pokemon().name }}" />
 
-    <!-- <div class="navigation-buttons">
-      <button class="navigation-prev"
-              (click)="navigatePokemon('previous')"
-              [disabled]="!previousId">←</button>
-      <button class="navigation-next"
-              (click)="navigatePokemon('next')"
-              [disabled]="!nextId">→</button>
-    </div> -->
+         <ng-template #noImage>
+          <img src="/assets/images/default.png" alt="" srcset="">
+        </ng-template>
   </div>
 
   <div class="pokemon-types"
@@ -49,6 +44,11 @@
       <span class="stat-name">{{ stat.stat.name }}</span>
     </div>
   </div>
+  <hr>
+  <span class="total-stats">
+    <span class="total-name" >Total Base Stat:</span>
+    <span class="total-value">{{ getTotalBaseStat() }}</span>
+  </span>
 
   <!-- Chuỗi tiến hóa -->
   <!-- <div class="evolution-chain"

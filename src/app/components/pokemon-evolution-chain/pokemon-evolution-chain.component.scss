@@ -1,45 +1,52 @@
 .evolution-chain {
   margin-top: 16px;
   display: flex;
-  overflow: auto;
+  align-items: center;
 
-  .evolution-unit {
-    display: flex;
-    align-items: center;
-    .evolution-info {
+  .evolution-stage {
+    display: grid;
+    gap: 8px;
+    overflow: scroll;
+    max-height: 200px;
+
+    .evolution-unit {
       display: flex;
-      flex-flow: column wrap;
-      justify-content: center;
       align-items: center;
-      align-content: center;
-      img {
-        background: #fafafa;
-        width: 96px;
-        height: 96px;
-        border-radius: 50%;
-      }
-
-      @media screen and (max-width: 767px) {
+      .evolution-info {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
         img {
-          width: 84px;
-          height: 84px;
+          background: #fafafa;
+          width: 96px;
+          height: 96px;
+          border-radius: 50%;
+        }
+
+        @media screen and (max-width: 767px) {
+          img {
+            width: 84px;
+            height: 84px;
+          }
+        }
+
+        &__id {
+          font-size: 10px;
+          color: #999;
         }
       }
+    }
 
-      &__id {
-        font-size: 10px;
-        color: #999;
+    .current {
+      img {
+        border: 1px solid #b48ead;
       }
     }
-  }
 
-  .current {
-    img {
-      border: 1px solid #b48ead;
+    .evolution-unit:hover {
+      cursor: pointer;
     }
-  }
-
-  .evolution-unit:hover {
-    cursor: pointer;
   }
 }

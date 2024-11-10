@@ -1,8 +1,12 @@
 <div *ngIf="pokemon" class="pokemon-card">
   <div class="pokemon-image">
-    <img loading="lazy"
+    <img *ngIf="pokemon.data.sprites.front_default !== null; else noImage" loading="lazy"
          [src]="pokemon.data.sprites.front_default"
-         alt="?" />
+         [alt]="pokemon.name" />
+
+         <ng-template #noImage>
+          <img src="/assets/images/default.png" alt="" srcset="">
+        </ng-template>
   </div>
   <div class="pokemon-info">
     <span class="pokemon-id">#{{ pokemon.data.id }}</span>

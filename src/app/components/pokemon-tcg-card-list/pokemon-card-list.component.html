@@ -1,9 +1,11 @@
+
 <div *ngIf="isLoading(); else loaded" class="loading-container">
   <p>Đang tải thẻ Pokémon...</p>
 </div>
 
 <ng-template #loaded>
   <div class="container">
+    <span class="back-button" (click)="goBack()">←</span>
     <h2 class="series-title">{{ title }}</h2>
     <div class="list">
       <div *ngFor="let card of data()" >

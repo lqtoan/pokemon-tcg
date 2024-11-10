@@ -25,6 +25,7 @@
   margin: 0 auto;
   max-width: 480px;
   position: relative;
+  max-height: 624px;
   
   @media (min-width: 1024px) {
     padding: 16px;
@@ -37,7 +38,6 @@
     position: relative;
     border-radius: 50%;
     background: #fafafa;
-    overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     img {
@@ -161,12 +161,11 @@
   }
 
   .pokemon-bmi {
-    margin-top: 8px;
+    margin: 8px 0 16px;
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 250px;
-    font-size: 16px;
     gap: 8px;
   }
 
@@ -174,7 +173,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .label {
@@ -189,7 +188,6 @@
 
   .pokemon-stats {
     width: 100%;
-    margin-top: 16px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
@@ -202,7 +200,6 @@
       display: block;
       font-weight: bold;
       font-size: 1.1rem;
-      color: #333;
     }
 
     .stat-name {
@@ -213,51 +210,24 @@
     }
   }
 
-  .navigation-buttons {
-    .navigation-prev {
-      position: fixed;
-      left: 8px;
-      top: 172px;
+  .total-stats {
+    padding: 8px 0;
+    width: 80%;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    border-top: 1px solid #999;
+    
+    .total-name {
+      color: #999;
+      text-transform: capitalize;
+      font-size: 12px;
     }
-
-    .navigation-next {
-      position: fixed;
-      right: 8px;
-      top: 172px;
-    }
-
-    @media (min-width: 1024px) {
-      .navigation-prev {
-        position: fixed;
-        left: 40%;
-        top: 192px
-      }
-  
-      .navigation-next {
-        position: fixed;
-        right: 40%;
-        top: 192px
-      }
+    
+    .total-value {
+      margin-left: 8px;
+      font-weight: bold;
+      font-size: 1.1rem;
     }
   }
-  
-  button {
-    background-color: #b48ead;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
-  button[disabled] {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
 }

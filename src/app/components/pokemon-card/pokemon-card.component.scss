@@ -1,3 +1,5 @@
+@import 'type';
+
 .pokemon-card {
   position: relative;
   background-color: #eee;
@@ -75,108 +77,8 @@
       }
     }
 
-    $type-colors: (
-      "normal": #a8a77a,
-      "fire": #e62829,
-      "water": #6390f0,
-      "electric": #fac000,
-      "grass": #3fa129,
-      "ice": #96d9d6,
-      "fighting": #ff8000,
-      "poison": #a33ea1,
-      "ground": #e2bf65,
-      "flying": #81b9ef,
-      "psychic": #f95587,
-      "bug": #91a119,
-      "rock": #b6a136,
-      "ghost": #704170,
-      "dragon": #6f35fc,
-      "dark": #624d4e,
-      "steel": #b7b7ce,
-      "fairy": #ef70ef,
-    );
-
-    // Mixin để lấy màu theo hệ
-    @mixin type-color($type) {
-      background-color: map-get($type-colors, $type);
-      color: #ffffff; // Màu chữ là trắng để nổi bật trên nền
-    }
-
-    // Áp dụng cho các phần tử type
-
     .pokemon-types {
-      display: flex;
-      justify-content: center;
-      gap: 4px;
-      margin-top: 16px;
-
-      @media (max-width: 1023px) {
-        margin-top: 8px;
-      }
-
       .type {
-        padding: 4px;
-        border-radius: 4px;
-        display: inline-block;
-        font-weight: 500;
-        font-size: 12px;
-        text-transform: capitalize;
-
-        &.normal {
-          @include type-color("normal");
-        }
-        &.grass {
-          @include type-color("grass");
-        }
-        &.poison {
-          @include type-color("poison");
-        }
-        &.fire {
-          @include type-color("fire");
-        }
-        &.water {
-          @include type-color("water");
-        }
-        &.electric {
-          @include type-color("electric");
-        }
-        &.ice {
-          @include type-color("ice");
-        }
-        &.fighting {
-          @include type-color("fighting");
-        }
-        &.ground {
-          @include type-color("ground");
-        }
-        &.flying {
-          @include type-color("flying");
-        }
-        &.psychic {
-          @include type-color("psychic");
-        }
-        &.bug {
-          @include type-color("bug");
-        }
-        &.rock {
-          @include type-color("rock");
-        }
-        &.ghost {
-          @include type-color("ghost");
-        }
-        &.dragon {
-          @include type-color("dragon");
-        }
-        &.dark {
-          @include type-color("dark");
-        }
-        &.steel {
-          @include type-color("steel");
-        }
-        &.fairy {
-          @include type-color("fairy");
-        }
-
         @media (max-width: 1023px) {
           font-size: 10px;
         }

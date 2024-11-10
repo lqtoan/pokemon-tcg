@@ -4,7 +4,6 @@
   align-items: center;
   height: 200px;
   font-size: 1.2em;
-  color: #555;
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -33,7 +32,7 @@
 
     .set-item {
       padding: 16px;
-      background: #e5e9f0;
+      background: #eceff4;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       display: flex;
@@ -97,6 +96,7 @@
     }
     .set-list {
       grid-template-columns: repeat(1, 1fr);
+      gap: 8px;
       .set-item {
         padding: 8px;
         flex-flow: row nowrap;

@@ -1,3 +1,5 @@
+@import 'type';
+
 .loading {
   display: flex;
   justify-content: center;
@@ -73,107 +75,115 @@
     margin-bottom: 16px;
   }
 
+  // .pokemon-types {
+  //   display: flex;
+  //   justify-content: center;
+  //   gap: 8px;
+  //   margin-top: 8px;
+
+  //   @media (min-width: 1024px) {
+  //     margin-top: 16px;
+  //   }
+
+  //   $type-colors: (
+  //     "normal": #a8a77a,
+  //     "fire": #e62829,
+  //     "water": #6390f0,
+  //     "electric": #fac000,
+  //     "grass": #3fa129,
+  //     "ice": #96d9d6,
+  //     "fighting": #ff8000,
+  //     "poison": #a33ea1,
+  //     "ground": #e2bf65,
+  //     "flying": #81b9ef,
+  //     "psychic": #f95587,
+  //     "bug": #91a119,
+  //     "rock": #b6a136,
+  //     "ghost": #704170,
+  //     "dragon": #6f35fc,
+  //     "dark": #624d4e,
+  //     "steel": #b7b7ce,
+  //     "fairy": #ef70ef,
+  //   );
+
+  //   .type {
+  //     padding: 4px 8px;
+  //     border-radius: 4px;
+  //     display: inline-block;
+  //     font-weight: 500;
+  //     font-size: 0.8rem;
+  //     text-transform: capitalize;
+  //     color: #ffffff;
+  //     width: 64px;
+  //     text-align: center;
+
+  //     @media (min-width: 1024px) {
+  //       font-size: 0.9rem;
+  //     }
+
+  //     // Apply color based on type
+  //     &.normal {
+  //       background-color: map-get($type-colors, "normal");
+  //     }
+  //     &.fire {
+  //       background-color: map-get($type-colors, "fire");
+  //     }
+  //     &.water {
+  //       background-color: map-get($type-colors, "water");
+  //     }
+  //     &.electric {
+  //       background-color: map-get($type-colors, "electric");
+  //     }
+  //     &.grass {
+  //       background-color: map-get($type-colors, "grass");
+  //     }
+  //     &.ice {
+  //       background-color: map-get($type-colors, "ice");
+  //     }
+  //     &.fighting {
+  //       background-color: map-get($type-colors, "fighting");
+  //     }
+  //     &.poison {
+  //       background-color: map-get($type-colors, "poison");
+  //     }
+  //     &.ground {
+  //       background-color: map-get($type-colors, "ground");
+  //     }
+  //     &.flying {
+  //       background-color: map-get($type-colors, "flying");
+  //     }
+  //     &.psychic {
+  //       background-color: map-get($type-colors, "psychic");
+  //     }
+  //     &.bug {
+  //       background-color: map-get($type-colors, "bug");
+  //     }
+  //     &.rock {
+  //       background-color: map-get($type-colors, "rock");
+  //     }
+  //     &.ghost {
+  //       background-color: map-get($type-colors, "ghost");
+  //     }
+  //     &.dragon {
+  //       background-color: map-get($type-colors, "dragon");
+  //     }
+  //     &.dark {
+  //       background-color: map-get($type-colors, "dark");
+  //     }
+  //     &.steel {
+  //       background-color: map-get($type-colors, "steel");
+  //     }
+  //     &.fairy {
+  //       background-color: map-get($type-colors, "fairy");
+  //     }
+  //   }
+  // }
+
   .pokemon-types {
-    display: flex;
-    justify-content: center;
     gap: 8px;
-    margin-top: 8px;
-
-    @media (min-width: 1024px) {
-      margin-top: 16px;
-    }
-
-    $type-colors: (
-      "normal": #a8a77a,
-      "fire": #e62829,
-      "water": #6390f0,
-      "electric": #fac000,
-      "grass": #3fa129,
-      "ice": #96d9d6,
-      "fighting": #ff8000,
-      "poison": #a33ea1,
-      "ground": #e2bf65,
-      "flying": #81b9ef,
-      "psychic": #f95587,
-      "bug": #91a119,
-      "rock": #b6a136,
-      "ghost": #704170,
-      "dragon": #6f35fc,
-      "dark": #624d4e,
-      "steel": #b7b7ce,
-      "fairy": #ef70ef,
-    );
-
     .type {
-      padding: 4px 8px;
-      border-radius: 4px;
-      display: inline-block;
-      font-weight: 500;
-      font-size: 0.8rem;
-      text-transform: capitalize;
-      color: #ffffff;
-      width: 64px;
+      width: 60px;
       text-align: center;
-
-      @media (min-width: 1024px) {
-        font-size: 0.9rem;
-      }
-
-      // Apply color based on type
-      &.normal {
-        background-color: map-get($type-colors, "normal");
-      }
-      &.fire {
-        background-color: map-get($type-colors, "fire");
-      }
-      &.water {
-        background-color: map-get($type-colors, "water");
-      }
-      &.electric {
-        background-color: map-get($type-colors, "electric");
-      }
-      &.grass {
-        background-color: map-get($type-colors, "grass");
-      }
-      &.ice {
-        background-color: map-get($type-colors, "ice");
-      }
-      &.fighting {
-        background-color: map-get($type-colors, "fighting");
-      }
-      &.poison {
-        background-color: map-get($type-colors, "poison");
-      }
-      &.ground {
-        background-color: map-get($type-colors, "ground");
-      }
-      &.flying {
-        background-color: map-get($type-colors, "flying");
-      }
-      &.psychic {
-        background-color: map-get($type-colors, "psychic");
-      }
-      &.bug {
-        background-color: map-get($type-colors, "bug");
-      }
-      &.rock {
-        background-color: map-get($type-colors, "rock");
-      }
-      &.ghost {
-        background-color: map-get($type-colors, "ghost");
-      }
-      &.dragon {
-        background-color: map-get($type-colors, "dragon");
-      }
-      &.dark {
-        background-color: map-get($type-colors, "dark");
-      }
-      &.steel {
-        background-color: map-get($type-colors, "steel");
-      }
-      &.fairy {
-        background-color: map-get($type-colors, "fairy");
-      }
     }
   }
 

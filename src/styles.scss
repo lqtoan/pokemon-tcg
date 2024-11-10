@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'variables';
+
 *,
 *::after,
 *::before {
@@ -12,8 +14,8 @@ html {
 }
 body {
   font-family: sans-serif;
-  color: #2e3440;
-  background: #eceff4;
+  color: $black;
+  background: $dark-white;
   font-display: fallback;
 }
 
@@ -24,13 +26,13 @@ img {
 
 /****************** thumbnail ******************/
 ::-webkit-scrollbar {
-  display: none;
+  display: block;
   background: transparent;
   width: 6px;
 }
 ::-webkit-scrollbar-thumb {
   display: block;
   visibility: hidden;
-  background: blue;
+  background: $primary-color;
   border-radius: 4px;
 }

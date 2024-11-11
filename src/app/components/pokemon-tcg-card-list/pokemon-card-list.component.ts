@@ -15,7 +15,7 @@ export class PokemonCardListComponent {
   isLoading = signal(false);
   data = signal<Card[]>([]);
   setId: string | null = '';
-  title: string = '';
+  title: string = 'Set';
 
   private page = 1;
   private pageSize = 20;
@@ -60,9 +60,6 @@ export class PokemonCardListComponent {
       next: (response) => {
         const newData = response.data || [];
         this.data.set([...this.data(), ...newData]);
-        if (newData.length > 0) {
-          this.page++; // Tăng trang nếu còn thẻ để tải
-        }
       },
       error: (error) => {
         console.error('Lỗi khi tải dữ liệu:', error);

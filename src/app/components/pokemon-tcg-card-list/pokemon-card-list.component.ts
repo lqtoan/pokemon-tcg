@@ -15,12 +15,11 @@ export class PokemonCardListComponent {
   isLoading = signal(false);
   data = signal<Card[]>([]);
   setId: string | null = '';
-  title: string = 'Set';
+  title: string = '';
 
   private page = 1;
-  private pageSize = 20;
+  private pageSize = 15;
   private maxPage = 0;
-  private total = 0;
 
   constructor(
     private router: Router,
@@ -41,10 +40,8 @@ export class PokemonCardListComponent {
   loadSetDetails(setId: string) {
     this.pokemonTcgService.getSetById(setId).subscribe({
       next: (response) => {
-        this.total = response.data.total;
+        this.maxPage = Math.ceil(response.data.total / this.pageSize);
         this.title = response.data.name;
-
-        this.maxPage = Math.ceil(this.total / this.pageSize);
       },
       error: (error) => {
         console.error('Lỗi khi lấy thông tin set:', error);

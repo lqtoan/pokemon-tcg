@@ -26,12 +26,12 @@ img {
 
 /****************** thumbnail ******************/
 ::-webkit-scrollbar {
-  display: block;
+  display: none;
   background: transparent;
   width: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  display: block;
+  display: none;
   visibility: hidden;
   background: $primary-color;
   border-radius: 4px;

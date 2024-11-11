@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Set, SetResponse } from '../models/pokemon-tcg-set.model';
-import { CardResponse } from '../models/pokemon-tcg-card.model';
+import { Card, CardResponse } from '../models/pokemon-tcg-card.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,12 @@ export class PokemonTcgService {
     return this.http.get<{ data: Set }>(`${this.apiUrl}/sets/${setId}`);
   }
 
-  getCardsBySet(setId: string): Observable<CardResponse> {
-    const headers = new HttpHeaders().set('X-Api-Key', this.API_KEY );
-    return this.http.get<CardResponse>(`${this.apiUrl}/cards?q=set.id:${setId}`, { headers });
+  getCardsBySet(setId: string | null, page: number = 1, pageSize: number = 15): Observable<CardResponse> {
+    const params = {
+      q: `set.id:${setId}`,
+      page: page.toString(),
+      pageSize: pageSize.toString()
+    };
+    return this.http.get<CardResponse>(`${this.apiUrl}/cards`, { params });
   }
 }

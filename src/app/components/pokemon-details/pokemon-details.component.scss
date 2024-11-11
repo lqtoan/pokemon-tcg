@@ -1,3 +1,4 @@
+@import 'variables';
 @import 'type';
 
 .loading {
@@ -6,7 +7,7 @@
   align-items: center;
   height: 200px;
   font-size: 1.2em;
-  color: #555;
+  color: $black;
   animation: fadeIn 0.5s ease-in-out;
 }
 
@@ -57,7 +58,6 @@
         height: 96px;
 
         border-radius: 8px;
-        background: #fafafa;
         border: 1px solid rgba($color: #333, $alpha: .10);
       }
     }
@@ -180,6 +180,7 @@
   // }
 
   .pokemon-types {
+    margin-top: 8px;
     gap: 8px;
     .type {
       width: 60px;

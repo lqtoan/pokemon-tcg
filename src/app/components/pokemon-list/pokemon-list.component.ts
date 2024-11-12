@@ -1,4 +1,5 @@
-import { Component, ElementRef, HostListener, OnInit, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, OnDestroy, signal, viewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PokemonService } from '../../services/pokemon.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +20,7 @@ import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.com
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss'],
 })
-export class PokemonListComponent implements OnInit {
+export class PokemonListComponent implements OnInit, OnDestroy {
   readonly scrollContainer = viewChild.required<ElementRef>('scrollContainer');
   
   pokemons = signal<UpdatedPokemon[]>([]);
@@ -32,53 +33,16 @@ export class PokemonListComponent implements OnInit {
   private limit = 30;
   private offset = 0;
 
+  private subscriptions: Subscription[] = [];
+
   constructor(private _pokemonService: PokemonService) {}
 
   ngOnInit(): void {
     this.loadPokemons();
   }
 
-  loadPokemons(): void {
-    if (this.isLoading()) return;
-
-    this.isLoading.set(true);
-    this.offset = (this.currentPage - 1) * this.limit;
-
-    this._pokemonService.getPokemonList(this.limit, this.offset).subscribe({
-      next: (response) => this.fetchPokemonData(response.results, response.count),
-      error: () => this.isLoading.set(false)
-    });
-  }
-
-  fetchPokemonData(pokemonList: NamedAPIResource[], total: number): void {
-    this.maxPage = Math.ceil(total / this.limit);
-
-    const pokemonDataObservables = pokemonList.map(pokemon =>
-      this._pokemonService.getPokemonData(pokemon.url)
-    );
-
-    forkJoin<Pokemon[]>(pokemonDataObservables).subscribe({
-      next: (dataList) => this.updatePokemons(dataList, pokemonList),
-      error: () => this.isLoading.set(false)
-    });
-  }
-
-  updatePokemons(dataList: Pokemon[], pokemonList: NamedAPIResource[]): void {
-    const updatedPokemons = dataList.map((data, index) => ({
-      ...pokemonList[index],
-      data,
-      stats: {
-        hp: data.stats[0].base_stat,
-        attack: data.stats[1].base_stat,
-        defense: data.stats[2].base_stat,
-        speAttack: data.stats[3].base_stat,
-        speDefense: data.stats[4].base_stat,
-        speed: data.stats[5].base_stat,
-      },
-    }));
-
-    this.pokemons.set([...this.pokemons(), ...updatedPokemons]);
-    this.isLoading.set(false);
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   togglePopup(pokemon?: UpdatedPokemon): void {
@@ -97,6 +61,53 @@ export class PokemonListComponent implements OnInit {
       this.currentPage++;
       this.loadPokemons();
     }
+  }
+
+  private loadPokemons(): void {
+    if (this.isLoading()) return;
+
+    this.isLoading.set(true);
+    this.offset = (this.currentPage - 1) * this.limit;
+
+    const pokemonListSubscription = this._pokemonService.getPokemonList(this.limit, this.offset).subscribe({
+      next: (response) => this.fetchPokemonData(response.results, response.count),
+      error: () => this.isLoading.set(false)
+    });
+
+    this.subscriptions.push(pokemonListSubscription);
+  }
+
+  private fetchPokemonData(pokemonList: NamedAPIResource[], total: number): void {
+    this.maxPage = Math.ceil(total / this.limit);
+
+    const pokemonDataObservables = pokemonList.map(pokemon =>
+      this._pokemonService.getPokemonData(pokemon.url)
+    );
+
+    const dataSubscription = forkJoin<Pokemon[]>(pokemonDataObservables).subscribe({
+      next: (dataList) => this.updatePokemons(dataList, pokemonList),
+      error: () => this.isLoading.set(false)
+    });
+
+    this.subscriptions.push(dataSubscription);
+  }
+
+  private updatePokemons(dataList: Pokemon[], pokemonList: NamedAPIResource[]): void {
+    const updatedPokemons = dataList.map((data, index) => ({
+      ...pokemonList[index],
+      data,
+      stats: {
+        hp: data.stats[0].base_stat,
+        attack: data.stats[1].base_stat,
+        defense: data.stats[2].base_stat,
+        speAttack: data.stats[3].base_stat,
+        speDefense: data.stats[4].base_stat,
+        speed: data.stats[5].base_stat,
+      },
+    }));
+
+    this.pokemons.set([...this.pokemons(), ...updatedPokemons]);
+    this.isLoading.set(false);
   }
 
   private shouldLoadMore(): boolean {

@@ -3,6 +3,7 @@ import { PokemonTcgService } from '../../services/pokemon-tcg.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Card } from '../../models/pokemon-tcg-card.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon-card-list',
@@ -21,6 +22,8 @@ export class PokemonCardListComponent {
   private pageSize = 15;
   private maxPage = 0;
 
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -37,34 +40,8 @@ export class PokemonCardListComponent {
     });
   }
 
-  loadSetDetails(setId: string) {
-    this.pokemonTcgService.getSetById(setId).subscribe({
-      next: (response) => {
-        this.maxPage = Math.ceil(response.data.total / this.pageSize);
-        this.title = response.data.name;
-      },
-      error: (error) => {
-        console.error('Lỗi khi lấy thông tin set:', error);
-      }
-    });
-  }
-
-  loadCardsBySet(setId: string) {
-    if (this.isLoading()) return;
-
-    this.isLoading.set(true);
-    this.pokemonTcgService.getCardsBySet(setId, this.page, this.pageSize).subscribe({
-      next: (response) => {
-        const newData = response.data || [];
-        this.data.set([...this.data(), ...newData]);
-      },
-      error: (error) => {
-        console.error('Lỗi khi tải dữ liệu:', error);
-      },
-      complete: () => {
-        this.isLoading.set(false);
-      },
-    });
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   @HostListener('window:scroll', [])
@@ -81,6 +58,40 @@ export class PokemonCardListComponent {
 
   goBack() {
     this.router.navigate(['/tcg']);
+  }
+
+  private loadSetDetails(setId: string) {
+    const pokemonTcgSubscription = this.pokemonTcgService.getSetById(setId).subscribe({
+      next: (response) => {
+        this.maxPage = Math.ceil(response.data.total / this.pageSize);
+        this.title = response.data.name;
+      },
+      error: (error) => {
+        console.error('Lỗi khi lấy thông tin set:', error);
+      }
+    });
+
+    this.subscriptions.push(pokemonTcgSubscription);
+  }
+
+  private loadCardsBySet(setId: string) {
+    if (this.isLoading()) return;
+
+    this.isLoading.set(true);
+    const pokemonTcgSubscription = this.pokemonTcgService.getCardsBySet(setId, this.page, this.pageSize).subscribe({
+      next: (response) => {
+        const newData = response.data || [];
+        this.data.set([...this.data(), ...newData]);
+      },
+      error: (error) => {
+        console.error('Lỗi khi tải dữ liệu:', error);
+      },
+      complete: () => {
+        this.isLoading.set(false);
+      },
+    });
+
+    this.subscriptions.push(pokemonTcgSubscription);
   }
 
   private shouldLoadMore(): boolean {

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, signal } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PokemonEvolutionChainComponent } from '../pokemon-evolution-chain/pokemon-evolution-chain.component';
@@ -97,13 +98,14 @@ const mockPokemon = {
   templateUrl: './pokemon-details.component.html',
   styleUrls: ['./pokemon-details.component.scss'],
 })
-export class PokemonDetailsComponent implements OnInit {
+export class PokemonDetailsComponent implements OnInit, OnDestroy {
   @Input() pokemonId: number = 0;
 
-  // Sử dụng signals để quản lý trạng thái
   pokemon = signal<Pokemon>(mockPokemon);
   evolutionChain = signal<EvolutionChainPokemon[][]>([]);
   isLoading = signal<boolean>(false);
+
+  private subscriptions: Subscription[] = [];
 
   constructor(private _pokemonService: PokemonService) {}
 
@@ -111,9 +113,33 @@ export class PokemonDetailsComponent implements OnInit {
     this.loadPokemonDetails(this.pokemonId);
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  onPokemonSelected(pokemonId: number): void {
+    this.isLoading.set(true);
+    const pokemonDetailsSubscription = this._pokemonService.getPokemonDetails(pokemonId).subscribe({
+      next: (res) => {
+        this.pokemon.set(res);
+        this.pokemonId = res.id;
+        this.isLoading.set(false);
+      },
+      error: (error) => {
+        console.error('Error fetching selected Pokémon details:', error);
+        this.isLoading.set(false);
+      }
+    });
+    this.subscriptions.push(pokemonDetailsSubscription);
+  }
+
+  getTotalBaseStat(): number {
+    return this.pokemon().stats.reduce((total, stat) => total + stat.base_stat, 0);
+  }
+
   private loadPokemonDetails(id: number): void {
     this.isLoading.set(true);
-    this._pokemonService.getPokemonDetails(id).subscribe({
+    const pokemonDetailsSubscription = this._pokemonService.getPokemonDetails(id).subscribe({
       next: (res) => {
         this.pokemon.set(res);
         this.loadEvolutionChain();
@@ -123,15 +149,16 @@ export class PokemonDetailsComponent implements OnInit {
         this.isLoading.set(false);
       }
     });
+    this.subscriptions.push(pokemonDetailsSubscription);
   }
 
   private loadEvolutionChain(): void {
     if (!this.pokemonId) return;
 
-    this._pokemonService.getPokemonSpecies(this.pokemonId).subscribe({
+    const speciesDataSubscription = this._pokemonService.getPokemonSpecies(this.pokemonId).subscribe({
       next: (speciesData) => {
         const evolutionChainUrl = speciesData.evolution_chain.url;
-        this._pokemonService.getEvolutionChain(evolutionChainUrl).subscribe({
+        const evolutionChainSubscription = this._pokemonService.getEvolutionChain(evolutionChainUrl).subscribe({
           next: (evolutionData) => {
             this.evolutionChain.set(this.parseEvolutionChain(evolutionData.chain));
             this.isLoading.set(false);
@@ -141,12 +168,14 @@ export class PokemonDetailsComponent implements OnInit {
             this.isLoading.set(false);
           }
         });
+        this.subscriptions.push(evolutionChainSubscription);
       },
       error: (error) => {
         console.error('Error fetching species data:', error);
         this.isLoading.set(false);
       }
     });
+    this.subscriptions.push(speciesDataSubscription);
   }
 
   private parseEvolutionChain(chain: EvolutionDetail): EvolutionChainPokemon[][] {
@@ -179,24 +208,4 @@ export class PokemonDetailsComponent implements OnInit {
     addEvolutionLevelToChain([chain]);
     return chainArray;
   }
-  
-
-  onPokemonSelected(pokemonId: number): void {
-    this.isLoading.set(true);
-    this._pokemonService.getPokemonDetails(pokemonId).subscribe({
-      next: (res) => {
-        this.pokemon.set(res);
-        this.pokemonId = res.id;
-        this.isLoading.set(false);
-      },
-      error: (error) => {
-        console.error('Error fetching selected Pokémon details:', error);
-        this.isLoading.set(false);
-      }
-    });
-  }
-
-  getTotalBaseStat(): number {
-    return this.pokemon().stats.reduce((total, stat) => total + stat.base_stat, 0);
-  }  
 }

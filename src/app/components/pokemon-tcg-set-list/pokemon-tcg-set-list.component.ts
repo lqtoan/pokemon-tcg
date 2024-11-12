@@ -3,6 +3,7 @@ import { PokemonTcgService } from '../../services/pokemon-tcg.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Set } from '../../models/pokemon-tcg-set.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon-set-list',
@@ -17,13 +18,19 @@ export class PokemonSetListComponent {
   sortedData: [string, Set[]][] = [];
   selectedSetId: string | null = null;
 
+  private subscriptions: Subscription[] = [];
+
   constructor(private pokemonTcgService: PokemonTcgService) {
     this.loadSets();
   }
 
-  loadSets() {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private loadSets() {
     this.isLoading.set(true);
-    this.pokemonTcgService.getAllSets().subscribe({
+    const pokemonTcgSubscription = this.pokemonTcgService.getAllSets().subscribe({
       next: (response) => {
         const sortedSets = response.data.sort((a: Set, b: Set) => {
           return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
@@ -48,5 +55,7 @@ export class PokemonSetListComponent {
         this.isLoading.set(false);
       },
     });
+
+    this.subscriptions.push(pokemonTcgSubscription);
   }
 }

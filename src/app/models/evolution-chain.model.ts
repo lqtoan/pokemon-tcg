@@ -1,8 +1,9 @@
 import { NamedAPIResource } from "./pokemon.model";
 
-export interface EvolutionChain {
+export interface EvolutionChainResponse {
   id: number;
   chain: EvolutionDetail;
+  // baby_trigger_item: string | null;
 }
 
 export interface EvolutionDetail {
@@ -17,7 +18,6 @@ export interface EvolutionTriggerDetail {
   item?: NamedAPIResource;
   held_item?: NamedAPIResource;
   location?: NamedAPIResource;
-  // Có thể bổ sung thêm các yếu tố khác như min_happiness, min_beauty, etc.
 }
 
 export interface EvolutionChainPokemon {

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { EvolutionChain, EvolutionChainPokemon } from '../../models/evolution-chain.model';
+import { EvolutionChainPokemon } from '../../models/evolution-chain.model';
 
 @Component({
   selector: 'app-pokemon-evolution-chain',

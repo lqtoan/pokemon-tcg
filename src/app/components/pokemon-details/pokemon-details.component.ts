@@ -185,7 +185,7 @@ export class PokemonDetailsComponent implements OnInit, OnDestroy {
       if (!evolutions.length) return;
   
       const currentLevel: EvolutionChainPokemon[] = evolutions.map(evolution => {
-        const pokemonId = this._pokemonService.getIdFromUrl(evolution.species.url);
+        const pokemonId = this.getIdFromUrl(evolution.species.url);
         const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
   
         return {
@@ -207,5 +207,10 @@ export class PokemonDetailsComponent implements OnInit, OnDestroy {
     // Bắt đầu thêm chuỗi tiến hóa từ Pokémon gốc
     addEvolutionLevelToChain([chain]);
     return chainArray;
+  }
+
+  private getIdFromUrl(url: string): number {
+    const parts = url.split('/');
+    return parseInt(parts[parts.length - 2]);
   }
 }

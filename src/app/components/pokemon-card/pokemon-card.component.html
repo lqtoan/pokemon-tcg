@@ -1,20 +1,22 @@
-<div *ngIf="pokemon" class="pokemon-card">
+<div *ngIf="pokemon"
+     class="pokemon-card">
   <div class="pokemon-image">
-    <img *ngIf="pokemon.data.sprites.front_default !== null; else noImage" loading="lazy"
-         [src]="pokemon.data.sprites.front_default"
+    <img *ngIf="pokemon.sprites.front_default !== null; else noImage"
+         [src]="pokemon.sprites.front_default"
          [alt]="pokemon.name" />
 
-         <ng-template #noImage>
-          <img src="/assets/images/default.png" alt="" srcset="">
-        </ng-template>
+    <ng-template #noImage>
+      <img src="/assets/images/default.png"
+           alt=""
+           srcset="">
+    </ng-template>
   </div>
   <div class="pokemon-info">
-    <span class="pokemon-id">#{{ pokemon.data.id }}</span>
+    <span class="pokemon-id">#{{ pokemon.id }}</span>
     <span class="pokemon-name">{{ pokemon.name | titlecase }}</span>
 
-    <div class="pokemon-types"
-         *ngIf="pokemon.data">
-      <span *ngFor="let type of pokemon.data.types"
+    <div class="pokemon-types">
+      <span *ngFor="let type of pokemon.types"
             class="type {{ type.type.name }}">
         {{ type.type.name | titlecase }}
       </span>

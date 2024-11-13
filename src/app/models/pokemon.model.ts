@@ -59,11 +59,9 @@ export interface PokemonStats {
   speed: number;
 }
 
-export interface UpdatedPokemon {
-  name: string;
-  url: string;
-  data: Pokemon;
-}
+// export interface UpdatedPokemon {
+//   data: Pokemon;
+// }
 
 export interface SelectedPokemon {
   id: number;

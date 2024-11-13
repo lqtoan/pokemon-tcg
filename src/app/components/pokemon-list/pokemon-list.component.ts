@@ -4,7 +4,7 @@ import { PokemonService } from '../../services/pokemon.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { NamedAPIResource, Pokemon, UpdatedPokemon, SelectedPokemon } from '../../models/pokemon.model';
+import { NamedAPIResource, Pokemon, SelectedPokemon } from '../../models/pokemon.model';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.component';
 
@@ -23,7 +23,7 @@ import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.com
 export class PokemonListComponent implements OnInit, OnDestroy {
   readonly scrollContainer = viewChild.required<ElementRef>('scrollContainer');
   
-  readonly pokemons = signal<UpdatedPokemon[]>([]);
+  readonly pokemons = signal<Pokemon[]>([]);
   readonly isLoading = signal<boolean>(false);
   selectedPokemon: SelectedPokemon | null = null;
   showPopup = false;
@@ -45,11 +45,11 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  togglePopup(pokemon?: UpdatedPokemon): void {
+  togglePopup(pokemon?: Pokemon): void {
     if (pokemon) {
       this.selectedPokemon = {
-        id: pokemon.data.id,
-        data: pokemon.data
+        id: pokemon.id,
+        data: pokemon
       };
     }
     this.showPopup = !this.showPopup;
@@ -85,22 +85,22 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     );
 
     const dataSubscription = forkJoin<Pokemon[]>(pokemonDataObservables).subscribe({
-      next: (dataList) => this.updatePokemons(dataList, pokemonList),
+      next: (dataList) => this.pokemons.set([...this.pokemons(), ...dataList]),
       error: () => this.isLoading.set(false)
     });
 
     this.subscriptions.push(dataSubscription);
   }
 
-  private updatePokemons(dataList: Pokemon[], pokemonList: NamedAPIResource[]): void {
-    const updatedPokemons = dataList.map((data, index) => ({
-      ...pokemonList[index],
-      data,
-    }));
+  // private updatePokemons(dataList: Pokemon[], pokemonList: NamedAPIResource[]): void {
+  //   const updatedPokemons = dataList.map((data, index) => ({
+  //     ...pokemonList[index],
+  //     data,
+  //   }));
 
-    this.pokemons.set([...this.pokemons(), ...updatedPokemons]);
-    this.isLoading.set(false);
-  }
+  //   this.pokemons.set([...this.pokemons(), ...updatedPokemons]);
+  //   this.isLoading.set(false);
+  // }
 
   private shouldLoadMore(): boolean {
     const element = this.scrollContainer()?.nativeElement;

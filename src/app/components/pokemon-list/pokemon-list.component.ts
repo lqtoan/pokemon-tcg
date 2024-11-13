@@ -45,7 +45,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  togglePopup(pokemon?: Pokemon): void {
+  togglePopup(pokemon: Pokemon | null): void {
     if (pokemon) {
       this.selectedPokemon = pokemon;
     }

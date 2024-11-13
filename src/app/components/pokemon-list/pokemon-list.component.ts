@@ -23,8 +23,8 @@ import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.com
 export class PokemonListComponent implements OnInit, OnDestroy {
   readonly scrollContainer = viewChild.required<ElementRef>('scrollContainer');
   
-  pokemons = signal<UpdatedPokemon[]>([]);
-  isLoading = signal<boolean>(false);
+  readonly pokemons = signal<UpdatedPokemon[]>([]);
+  readonly isLoading = signal<boolean>(false);
   selectedPokemon: SelectedPokemon | null = null;
   showPopup = false;
 
@@ -96,14 +96,6 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     const updatedPokemons = dataList.map((data, index) => ({
       ...pokemonList[index],
       data,
-      stats: {
-        hp: data.stats[0].base_stat,
-        attack: data.stats[1].base_stat,
-        defense: data.stats[2].base_stat,
-        speAttack: data.stats[3].base_stat,
-        speDefense: data.stats[4].base_stat,
-        speed: data.stats[5].base_stat,
-      },
     }));
 
     this.pokemons.set([...this.pokemons(), ...updatedPokemons]);

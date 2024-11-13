@@ -63,7 +63,6 @@ export interface UpdatedPokemon {
   name: string;
   url: string;
   data: Pokemon;
-  stats: PokemonStats;
 }
 
 export interface SelectedPokemon {

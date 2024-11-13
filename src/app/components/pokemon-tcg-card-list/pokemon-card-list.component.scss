@@ -88,9 +88,9 @@
 @media screen and (max-width: 767px) {
   .container {
     max-width: 480px;
-    padding: 8px;
+    padding: 0 8px;
     .series-title {
-      margin: 8px 0;
+      padding: 16px 0 8px;
     }
     .list {
       grid-template-columns: repeat(2, 1fr);

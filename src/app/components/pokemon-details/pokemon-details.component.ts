@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, signal } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { catchError, of, Subscription, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PokemonEvolutionChainComponent } from '../pokemon-evolution-chain/pokemon-evolution-chain.component';
@@ -154,28 +154,35 @@ export class PokemonDetailsComponent implements OnInit, OnDestroy {
 
   private loadEvolutionChain(): void {
     if (!this.pokemonId) return;
-
-    const speciesDataSubscription = this._pokemonService.getPokemonSpecies(this.pokemonId).subscribe({
-      next: (speciesData) => {
-        const evolutionChainUrl = speciesData.evolution_chain.url;
-        const evolutionChainSubscription = this._pokemonService.getEvolutionChain(evolutionChainUrl).subscribe({
-          next: (evolutionData) => {
+  
+    this.isLoading.set(true);
+  
+    const subscription = this._pokemonService
+      .getPokemonSpecies(this.pokemonId)
+      .pipe(
+        switchMap((speciesData) =>
+          this._pokemonService.getEvolutionChain(speciesData.evolution_chain.url)
+        ),
+        catchError((error) => {
+          console.error('Error fetching evolution chain:', error);
+          this.isLoading.set(false);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (evolutionData) => {
+          if (evolutionData) {
             this.evolutionChain.set(this.parseEvolutionChain(evolutionData.chain));
-            this.isLoading.set(false);
-          },
-          error: (error) => {
-            console.error('Error fetching evolution chain:', error);
-            this.isLoading.set(false);
           }
-        });
-        this.subscriptions.push(evolutionChainSubscription);
-      },
-      error: (error) => {
-        console.error('Error fetching species data:', error);
-        this.isLoading.set(false);
-      }
-    });
-    this.subscriptions.push(speciesDataSubscription);
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          console.error('Unexpected error:', error);
+          this.isLoading.set(false);
+        }
+      });
+  
+    this.subscriptions.push(subscription);
   }
 
   private parseEvolutionChain(chain: EvolutionDetail): EvolutionChainPokemon[][] {

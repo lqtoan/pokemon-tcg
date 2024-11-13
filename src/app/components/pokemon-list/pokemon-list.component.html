@@ -9,7 +9,7 @@
 </div>
 
 <app-pokemon-popup *ngIf="showPopup"
-                           [content]="selectedPokemon"
+                           [selectedPokemon]="selectedPokemon"
                            (closePopup)="togglePopup()"></app-pokemon-popup>
 
 <div *ngIf="isLoading()"

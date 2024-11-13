@@ -4,7 +4,7 @@ import { PokemonService } from '../../services/pokemon.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { NamedAPIResource, Pokemon, SelectedPokemon } from '../../models/pokemon.model';
+import { NamedAPIResource, Pokemon } from '../../models/pokemon.model';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 import { PokemonDetailsPopupComponent } from '../pokemon-popup/pokemon-popup.component';
 
@@ -25,7 +25,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   
   readonly pokemons = signal<Pokemon[]>([]);
   readonly isLoading = signal<boolean>(false);
-  selectedPokemon: SelectedPokemon | null = null;
+  selectedPokemon: Pokemon | null = null;
   showPopup = false;
 
   private currentPage = 1;
@@ -47,10 +47,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   togglePopup(pokemon?: Pokemon): void {
     if (pokemon) {
-      this.selectedPokemon = {
-        id: pokemon.id,
-        data: pokemon
-      };
+      this.selectedPokemon = pokemon;
     }
     this.showPopup = !this.showPopup;
   }

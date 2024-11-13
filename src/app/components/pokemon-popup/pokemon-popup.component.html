@@ -1,8 +1,8 @@
 <div class="popup-overlay" (click)="close()">
   <div class="popup-content" (click)="$event.stopPropagation()">
     <button class="close-btn" (click)="close()">✕</button>
-    <ng-container *ngIf="content" >
-      <app-pokemon-details [pokemonId]="content.data.id"></app-pokemon-details>
+    <ng-container *ngIf="selectedPokemon" >
+      <app-pokemon-details [pokemonId]="selectedPokemon.id"></app-pokemon-details>
     </ng-container>
   </div>
 </div>
